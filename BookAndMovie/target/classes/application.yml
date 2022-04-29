@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://rm-2ze20n03b453k99877o.mysql.rds.aliyuncs.com:3306/spring
+    username: selmiss
+    password: MOst20010512
+  jpa:
+    hibernate:
+      ddl-auto: update
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 2MB
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+mybatis:
+  mapper-locations: classpath:Mapper/*.xml
+  type-aliases-package: com.example.bookandmovie.Entity
+server:
+  port: 8080
+  error:
+    path: /error
+file:
+  upload:
+    path: /Users/fancy/软工开发
