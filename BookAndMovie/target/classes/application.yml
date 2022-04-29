@@ -2,8 +2,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://rm-2ze20n03b453k99877o.mysql.rds.aliyuncs.com:3306/spring
-    username: selmiss
-    password: MOst20010512
+    username: programing4
+    password: PROgraming0429
   jpa:
     hibernate:
       ddl-auto: update

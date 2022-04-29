@@ -1,4 +1,4 @@
-package com.example.bookandmovie.Controller;
+package com.example.bookandmovie.Controller.User;
 
 import com.example.bookandmovie.Entity.User;
 import com.example.bookandmovie.Service.UserSevice;
