@@ -20,7 +20,6 @@ public class UserController {
     public Map<String,Object> register(@RequestBody Map<String,String> re_map){
         String username = re_map.get("username");
         String password = re_map.get("password");
-        String birthday = re_map.get("birthday");
         Map<String,Object> map = new HashMap<>();
         try{
             //Student student = new Student(username,password);
@@ -42,7 +41,7 @@ public class UserController {
         }
         return map;
     }
-    @PostMapping("/login")
+    @PostMapping("/user/login")
     public Map<String,Object> login(HttpSession session,@RequestBody Map<String,String> re_map){
         String username = re_map.get("username");
         String password = re_map.get("password");
