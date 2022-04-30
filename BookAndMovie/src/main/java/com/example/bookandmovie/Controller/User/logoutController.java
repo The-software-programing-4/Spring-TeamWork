@@ -14,7 +14,7 @@ import java.util.Map;
 public class logoutController {
     @Autowired
     private UserSevice userService;
-    @PostMapping("/logout")
+    @PostMapping("/user/logout")
     public Map<String, Object> logout(HttpSession session)
     {
         String username = (String) session.getAttribute("username");
