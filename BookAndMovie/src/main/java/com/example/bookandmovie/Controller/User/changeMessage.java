@@ -85,12 +85,12 @@ public class changeMessage {
     @PostMapping("api/user/password_set")
     public Map<String ,Object> changePassword(HttpSession session,@RequestBody Map<Object,String> re_map)
     {
-        Integer uid = Integer.valueOf(re_map.get("uid"));
+        //Integer uid = Integer.valueOf(re_map.get("uid"));
+        Integer uid = (Integer) session.getAttribute("uid");
         String password1=re_map.get("password_temp1");
         String password=re_map.get("password_temp");
-        User user=new User();
+        User user=userSevice.selectUserByUid(uid);
         Map<String ,Object> map=new HashMap<>();
-        user=userSevice.selectUserByUid(uid);
         String oldPassword=user.getPassword();
         if(!password.equals(oldPassword))
         {
@@ -101,7 +101,7 @@ public class changeMessage {
             userSevice.changPassword(password1,uid);
             map.put("message","修改成功，请重新登陆");
             session.invalidate();
-            
+
             return  map;
         }
     }

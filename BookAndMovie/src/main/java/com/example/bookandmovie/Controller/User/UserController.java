@@ -131,14 +131,14 @@ public class UserController {
         return map;
     }
     @PostMapping("/api/user/imgUpload")
-    @ResponseBody
-    public String updateImg(HttpSession session,@RequestPart MultipartFile file) throws IOException {
-        String username = (String) session.getAttribute("username");
-        username="JZH";
+    public String updateImg(HttpSession session, @RequestBody MultipartFile file,String username){
+        //String username = (String) session.getAttribute("username");
         String root=System.getProperty("user.dir");
         String status=new String();
         status="_new";
         //System.out.println(root);
+        if(username==null)
+            return "用户未登陆";
         String path1=root+"/src/main/resources/templates/userImg/"+username+".jpg";
         String path2=root+"/src/main/resources/templates/userImg/"+username+status+".jpg";
         File fileEx1=new File(path1);
@@ -152,7 +152,10 @@ public class UserController {
             status="";
         }
         File fileStore=new File(root+"/src/main/resources/templates/userImg",username+status+".jpg");
-        file.transferTo(fileStore);
+        try{file.transferTo(fileStore);}
+        catch (Exception e){
+            return "文件写入失败";
+        }
         return "Upload file success : " + file.getOriginalFilename();
     }
     @GetMapping("api/user/getImg")
@@ -160,8 +163,13 @@ public class UserController {
     public Map<String,Object> getImg(HttpSession session)
     {
         String username = (String) session.getAttribute("username");
-        username="JZH";
         Map<String,Object> map = new HashMap<>();
+        if(username==null)
+        {
+            map.put("username",username);
+            map.put("message",null);
+            return map;
+        }
         System.out.println("开始获取图片"+username);
         String root=System.getProperty("user.dir");
         String status="_new";
@@ -176,7 +184,9 @@ public class UserController {
         else if(file2.exists())
             status="_new";
         else{
-            map.put("username",null);
+            map.put("username",username);
+            map.put("message",null);
+            return map;
         }
         map.put("username",username);
         map.put("message","templates/userImg/"+username+status+".jpg");
