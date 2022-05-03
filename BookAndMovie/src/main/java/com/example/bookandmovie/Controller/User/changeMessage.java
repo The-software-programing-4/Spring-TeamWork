@@ -101,6 +101,7 @@ public class changeMessage {
             userSevice.changPassword(password1,uid);
             map.put("message","修改成功，请重新登陆");
             session.invalidate();
+            
             return  map;
         }
     }
