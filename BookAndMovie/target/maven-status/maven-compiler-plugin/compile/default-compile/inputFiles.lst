@@ -1,6 +1,9 @@
+/Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Service/MovieService.java
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Entity/User.java
+/Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Dao/MovieDao.java
+/Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Entity/Movie.java
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/BookAndMovieApplication.java
-/Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Entity/movie.java
+/Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Controller/movie/movieMain.java
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Service/Lmpl/BookServiceImpl.java
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Service/BookService.java
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Controller/User/UserController2.java
@@ -11,6 +14,7 @@
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Controller/UploadController.java
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Dao/UserDao.java
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Dao/BookDao.java
+/Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Service/Lmpl/MovieServiceMpl.java
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Service/Lmpl/UserServiceLmpl.java
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Service/UserService.java
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Controller/User/UserController.java

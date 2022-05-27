@@ -6,6 +6,8 @@ import com.example.bookandmovie.Service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MovieServiceMpl implements MovieService {
     @Autowired
@@ -14,4 +16,6 @@ public class MovieServiceMpl implements MovieService {
     public void addMovie(Movie movie){movieDao.addMovie(movie);}
     @Override
     public Movie findMovie(String name){return movieDao.findMovie(name);}
+    @Override
+    public List<Movie> listMovie(){return movieDao.listMovie();}
 }

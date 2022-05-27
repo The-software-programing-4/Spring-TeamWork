@@ -1,5 +1,6 @@
 package com.example.bookandmovie.Controller.movie;
 
+import com.example.bookandmovie.Controller.EditDistance;
 import com.example.bookandmovie.Entity.Movie;
 import com.example.bookandmovie.Service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,20 +10,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.Lob;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.function.ObjIntConsumer;
 
 @RestController
 public class movieMain {
     @Autowired
     private MovieService movieService;
-    @PostMapping("/api/movie/message_get")
-    public Map<String, Object> message_get(@RequestBody String name)
-    {
-        Map<String ,Object> map=new HashMap<>();
-        return map;
-    }
     @PostMapping("/api/movie/message_set")
     public Map<String, Object> message_set(@RequestBody Map<Object,Object> map)
     {
@@ -49,11 +43,77 @@ public class movieMain {
         remap.put("message","success");
         return remap;
     }
-    @PostMapping("/api/movie/message_set")
-    public Map<String, Object> message_set(@RequestBody String movie)
+    @PostMapping("/api/movie/message_get")
+    public Map<String, Object> message_get(@RequestBody String movie)
     {
         Map<String ,Object> remap=new HashMap<>();
         Movie m = movieService.findMovie(movie);
+        {
+            remap.put("message","success");
+            remap.put("mid", m.getMid());
+            remap.put("src", m.getSrc());
+            remap.put("name", m.getName());
+            remap.put("actors", m.getActors());
+            remap.put("directors", m.getDirectors());
+            remap.put("writers", m.getWriters());
+            remap.put("category", m.getCategory());
+            remap.put("language", m.getLanguage());
+            remap.put("length", m.getLength());
+            remap.put("date", m.getDate());
+            remap.put("position", m.getPosition());
+            remap.put("IMDb", m.getIMDb());
+            remap.put("score", m.getScore());
+            remap.put("brief_introduction", m.getBrief_introduction());
+        }
+
+        return remap;
+    }
+    @PostMapping("/api/movie/listMovie")
+    public Map<String, Object> list_movie(@RequestBody String movie)
+    {
+        List<Movie> movies= movieService.listMovie();
+        Map<String, Object> remap=new HashMap<>();
+        int i=1;
+        List<Map> arr=new ArrayList<>();
+        for(Movie e:movies) {
+            Map<String,Object> map_temp=new HashMap<>();
+            map_temp.put("name", e.getName());
+            map_temp.put("src", e.getSrc());
+            map_temp.put("mid", e.getMid());
+            map_temp.put("score", e.getScore());
+            map_temp.put("actors", e.getActors());
+            map_temp.put("category", e.getCategory());
+            arr.add(map_temp);
+            i++;
+            if(i>10) break;
+        }
+        remap.put("messages",arr);
+        return remap;
+    }
+    @PostMapping("/api/movie/moviesearch")
+    public Map<String, Object> searchMovie(@RequestBody String key)
+    {
+        List<Movie> movies= movieService.listMovie();
+        Map<String, Object> remap=new HashMap<>();
+        List<Map> arr=new ArrayList<>();
+        EditDistance editDistance=new EditDistance();
+        int editD;
+        for(Movie e:movies)
+        {
+            editD=editDistance.solve(e.getName(),key);
+            if(editD<e.getName().length())
+            {
+                Map<String,Object> map_temp=new HashMap<>();
+                map_temp.put("name", e.getName());
+                map_temp.put("src", e.getSrc());
+                map_temp.put("mid", e.getMid());
+                map_temp.put("score", e.getScore());
+                map_temp.put("actors", e.getActors());
+                map_temp.put("category", e.getCategory());
+                arr.add(map_temp);
+            }
+        }
+        remap.put("messages",arr);
         return remap;
     }
 
