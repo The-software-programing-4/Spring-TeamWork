@@ -9,7 +9,6 @@ public class EditDistance {
         if (len1 == 0 || len2 == 0) {
             return len1 + len2;
         }
-
         // DP数组
         int[][] dp = new int[len1 + 1][len2 + 1];
 

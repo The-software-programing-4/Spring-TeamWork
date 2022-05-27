@@ -18,4 +18,5 @@ com/example/bookandmovie/Entity/Book.class
 com/example/bookandmovie/Controller/User/changeMessage.class
 com/example/bookandmovie/Controller/User/UserController2.class
 com/example/bookandmovie/myConfig/CorsConfig.class
+com/example/bookandmovie/Controller/EditDistance.class
 com/example/bookandmovie/Service/Lmpl/MovieServiceMpl.class
