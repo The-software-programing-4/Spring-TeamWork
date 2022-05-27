@@ -8,7 +8,7 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)//次次递增
     private Integer book_id;
-
+    private String src;
     private String bookname;
     private String author;
     private String press;//出版社
@@ -28,6 +28,14 @@ public class Book {
     private String brief_introduction_of_author;//作者简介
     @Lob
     private String directory;//目录
+
+    public String getSrc() {
+        return src;
+    }
+
+    public void setSrc(String src) {
+        this.src = src;
+    }
 
     public Integer getBook_id() {
         return book_id;
