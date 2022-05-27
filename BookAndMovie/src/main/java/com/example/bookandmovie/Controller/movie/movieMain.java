@@ -49,12 +49,6 @@ public class movieMain {
         remap.put("message","success");
         return remap;
     }
-    @PostMapping("/api/movie/message_set")
-    public Map<String, Object> message_set(@RequestBody String movie)
-    {
-        Map<String ,Object> remap=new HashMap<>();
-        Movie m = movieService.findMovie(movie);
-        return remap;
-    }
+
 
 }

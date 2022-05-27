@@ -6,6 +6,8 @@ import com.example.bookandmovie.Service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BookServiceImpl implements BookService {
     @Autowired
@@ -20,4 +22,6 @@ public class BookServiceImpl implements BookService {
     public Book selectBookByBookISBN(Integer ISBN) {return bookDao.selectBookByBookISBN(ISBN);}
     @Override
     public void insertBook(Book book){bookDao.insertBook(book);}
+    @Override
+    public List listBook(){return bookDao.listBook();}
 }

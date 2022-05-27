@@ -7,9 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 public class BookController {
@@ -39,7 +37,7 @@ public class BookController {
                 map.put("producer", book1.getProducer());
                 map.put("promoting", book1.getPromoting());
                 map.put("publish_date", book1.getPublish_date());
-                map.put("translater", book1.getTranslator());
+                map.put("translator", book1.getTranslator());
 
                 map.put("success", true);
                 map.put("message", "已找到该图书！");
@@ -78,7 +76,7 @@ public class BookController {
                 book3.setAuthor((String) re_map.get("author"));
                 book3.setBinding((String) re_map.get("binding"));
                 book3.setDirectory((String) re_map.get("directory"));
-                book3.setISBN((Integer) re_map.get("ISBN"));
+                book3.setISBN((String) re_map.get("ISBN"));
                 book3.setBrief_introduction((String) re_map.get("brief_introduction"));
                 book3.setBrief_introduction_of_author((String) re_map.get("brief_introduction_of_author"));
                 book3.setOrigin_name((String) re_map.get("origin_name"));
@@ -99,5 +97,26 @@ public class BookController {
         }
 
         return map;
+    }
+
+    @PostMapping("api/book/listBook")
+    public Map<String, Object> listBook(){
+        List<Book> books = bookService.listBook();
+        Map<String, Object> remap = new HashMap<>();
+        int i = 1;
+        List<Map> arr = new ArrayList<>();
+        System.out.println(books.toString());
+        for(Book book:books){
+            Map<String, Object> map_temp = new HashMap<>();
+            map_temp.put("name", book.getBookname());
+            map_temp.put("src", book.getSrc());
+            map_temp.put("author", book.getAuthor());
+            map_temp.put("score", book.getScore());
+            arr.add(map_temp);
+            i++;
+            if(i>10) break;
+        }
+        remap.put("messages", arr);
+        return remap;
     }
 }
