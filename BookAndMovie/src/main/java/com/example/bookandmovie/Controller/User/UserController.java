@@ -32,7 +32,7 @@ public class UserController {
                 map.put("message","用户名已注册");
             }
             else{
-                User user = new User(username,password);
+                User user = new User(username,password,2);
                 userSevice.registerNewUser(user);
                 map.put("success",true);
                 map.put("message","用户注册成功!");
@@ -75,10 +75,10 @@ public class UserController {
                 {
                     map.put("success",true);
                     map.put("message",username+"登录成功");
-                    map.put("uid",user.get_id());
+                    map.put("uid",user.getUser_id());
                     session.setAttribute("username",username);
                     session.setAttribute("password",password);
-                    session.setAttribute("uid",user.get_id());
+                    session.setAttribute("uid",user.getUser_id());
                 }
                 else{
                     map.put("success",false);
@@ -90,10 +90,10 @@ public class UserController {
                 {
                     map.put("success",true);
                     map.put("message",username+"登录成功");
-                    map.put("uid",user.get_id());
+                    map.put("uid",user.getUser_id());
                     session.setAttribute("username",username);
                     session.setAttribute("password",password);
-                    session.setAttribute("uid",user.get_id());
+                    session.setAttribute("uid",user.getUser_id());
                 }
                 else{
                     map.put("success",false);

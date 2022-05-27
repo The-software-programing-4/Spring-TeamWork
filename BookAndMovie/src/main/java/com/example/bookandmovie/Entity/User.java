@@ -10,7 +10,6 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)//次次递增
     private Integer user_id;
-
     private String username;
     private String password;
     private String email;

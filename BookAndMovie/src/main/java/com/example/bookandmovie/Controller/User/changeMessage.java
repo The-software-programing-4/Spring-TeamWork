@@ -16,7 +16,7 @@ public class changeMessage {
     public String changeMessage(@RequestBody Map<Object,Object> re_map){
         User user = new User();
         try {
-            user.set_id(Integer.parseInt(re_map.get("uid").toString()));
+            user.setUser_id(Integer.parseInt(re_map.get("uid").toString()));
         }catch (Exception e){
             return "用户UID异常";
         }
