@@ -43,6 +43,7 @@ public class movieMain {
         remap.put("message","success");
         return remap;
     }
+
     @PostMapping("/api/movie/message_get")
     public Map<String, Object> message_get(@RequestBody String movie)
     {

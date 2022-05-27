@@ -9,6 +9,7 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)//次次递增
     private Integer book_id;
     private String src;
+    private double score;
     private String bookname;
     private String author;
     private String press;//出版社
@@ -19,7 +20,7 @@ public class Book {
     private Integer pages_number;//页数
     private Double price;//定价
     private String binding;//装帧
-    private Integer ISBN;
+    private String ISBN;
     @Lob
     private String brief_introduction;//内容简介
     @Lob
@@ -28,6 +29,14 @@ public class Book {
     private String brief_introduction_of_author;//作者简介
     @Lob
     private String directory;//目录
+
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
+    }
 
     public String getSrc() {
         return src;
@@ -125,11 +134,11 @@ public class Book {
         this.binding = binding;
     }
 
-    public Integer getISBN() {
+    public String getISBN() {
         return ISBN;
     }
 
-    public void setISBN(Integer ISBN) {
+    public void setISBN(String ISBN) {
         this.ISBN = ISBN;
     }
 

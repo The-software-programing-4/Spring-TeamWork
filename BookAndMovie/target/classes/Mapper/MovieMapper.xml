@@ -3,16 +3,19 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bookandmovie.Dao.MovieDao">
+
     <insert id="addMovie" parameterType="Movie">
         insert into movie(`src`,`name`,`actors`,`directors`,`writers`,`category`,
                             `language`,`length`,`date`,`position`,`IMDb`,`score`,`brief_introduction`)
         values(#{src},#{name},#{actors},#{directors},#{writers},#{category},
                #{language},#{length},#{date},#{position},#{IMDb},#{score},#{brief_introduction});
     </insert>
+
     <select id="findMovie" parameterType="String" resultType="Movie">
         select * from `movie` where name=#{name};
     </select>
     <select id="listMovie" resultType="Movie">
         select * from `movie` order by `score` desc;
     </select>
+
 </mapper>
