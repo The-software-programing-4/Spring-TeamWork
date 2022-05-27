@@ -53,10 +53,12 @@ public class BookController {
     }
 
     @PostMapping("/api/book/message_set")
-    public Map<String, Object> message_set(@RequestBody Map<Object, Object> re_map){
+    public Map<String, Object> message_set(@RequestBody Map<String, Object> re_map){
         Map<String, Object> map = new HashMap<>();
+        Integer book_id, pages_number, ISBN;
+        String bookname, author, press, producer, origin_name, translator, binding, brief_introduction, promoting,brief_introduction_of_author, directory;
         try{
-
+            Book book1 = bookService.selectBookByBookname(bookname);
         }catch (Exception e){
 
         }
