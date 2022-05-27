@@ -9,21 +9,20 @@
     <insert id="registerNewUser" parameterType="User">
         insert into `USER`(`username`,`password`) values(#{username},#{password})
     </insert>
+    <select id="selectUserByPhone" resultType="User">
+        select *
+        from User
+        where phone =#{phone}
+    </select>
     <select id="selectUserByEmail" resultType="User">
         select * from USER where email = #{email}
     </select>
     <select id="selectUserByUid" resultType="User">
         select * from USER where s_id = #{s_id}
     </select>
-    <update id="insertUserImg">
-        update `USER`  set `img` = #{photo} where `username`=#{username}
-    </update>
     <update id="changPassword">
         update `USER`  set `password` = #{password} where `s_id`=#{uid}
     </update>
-    <select id="getUserImg" resultType="User">
-        select * from `USER` where username=#{username}
-    </select>
     <update id="updateUserMessage" parameterType="User">
         update user set username=#{username} , regionOP=#{regionOP}, birthday=#{birthday} ,
         phone=#{phone}, email=#{email} ,hometown1=#{hometown1},hometown2=#{hometown2},hometown3=#{hometown3},
@@ -36,14 +35,4 @@
     <insert id="registerUserByPhone" parameterType="User">
         insert into User(phone, password) values(#{phone}, #{password})
     </insert>
-    <select id="selectUserByEmail" resultType="User">
-        select *
-        from User
-        where useremail =#{useremail}
-    </select>
-    <select id="selectUserByPhone" resultType="User">
-        select *
-        from User
-        where phone =#{phone}
-    </select>
 </mapper>

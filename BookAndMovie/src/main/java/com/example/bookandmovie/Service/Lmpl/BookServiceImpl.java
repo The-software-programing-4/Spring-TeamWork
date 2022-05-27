@@ -14,5 +14,10 @@ public class BookServiceImpl implements BookService {
     public Book selectBookByBookname(String bookname){
         return bookDao.selectBookByBookname(bookname);
     }
-
+    @Override
+    public Book selectBookByBook_id(Integer book_id) {return bookDao.selectBookByBook_id(book_id);}
+    @Override
+    public Book selectBookByBookISBN(Integer ISBN) {return bookDao.selectBookByBookISBN(ISBN);}
+    @Override
+    public void insertBook(Book book){bookDao.insertBook(book);}
 }
