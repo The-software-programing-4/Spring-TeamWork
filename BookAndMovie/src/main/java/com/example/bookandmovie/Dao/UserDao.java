@@ -11,10 +11,13 @@ import java.io.File;
 public interface UserDao {
     public User selectUserByUsername(String username);
     public User selectUserByEmail(String email);
+    User selectUserByPhone(String phone);
     public User selectUserByUid(Integer uid);
     public void registerNewUser(User user);
     public void insertUserImg(String username, byte[] photo);
     public MultipartFile getUserImg(String username);
     public void updateUserMessage(User user);
     public void changPassword(String password, Integer uid);
+    void registerUserByEmail(User user);
+    void registerUserByPhone(User user);
 }

@@ -1,23 +1,19 @@
 package com.example.bookandmovie.Controller.User;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import com.example.bookandmovie.Entity.User;
-import com.example.bookandmovie.Service.UserSevice;
+import com.example.bookandmovie.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.criteria.Fetch;
 import javax.servlet.http.HttpSession;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 @RestController
 public class UserController {
     @Autowired
-    private UserSevice userSevice;
+    private UserService userSevice;
     HttpSession session;
     @PostMapping("api/user/register")
     public Map<String,Object> register(@RequestBody Map<String,String> re_map){

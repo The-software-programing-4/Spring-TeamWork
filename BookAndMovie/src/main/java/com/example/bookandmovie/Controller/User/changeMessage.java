@@ -1,6 +1,6 @@
 package com.example.bookandmovie.Controller.User;
 import com.example.bookandmovie.Entity.User;
-import com.example.bookandmovie.Service.UserSevice;
+import com.example.bookandmovie.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,7 +11,7 @@ import java.util.*;
 @RestController
 public class changeMessage {
     @Autowired
-    private UserSevice userSevice;
+    private UserService userSevice;
     @PostMapping("api/user/message_set")
     public String changeMessage(@RequestBody Map<Object,Object> re_map){
         User user = new User();

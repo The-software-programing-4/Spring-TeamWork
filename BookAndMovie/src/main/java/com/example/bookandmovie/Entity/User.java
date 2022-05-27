@@ -23,7 +23,14 @@ public class User {
     public Integer getS_id() {
         return s_id;
     }
+    public User(String username, String password, int op){
+        if(op == 1)
+            this.setEmail(username);
+        else if(op == 2)
+            this.setPhone(username);
 
+        this.setPassword(password);
+    }
     public void setS_id(Integer s_id) {
         this.s_id = s_id;
     }

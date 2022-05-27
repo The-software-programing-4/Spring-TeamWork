@@ -30,4 +30,20 @@
         livetown1=#{livetown1},livetown2=#{livetown2},livetown3=#{livetown3},
         regionOP=#{regionOP} , birthOP=#{birthOP} where s_id=#{s_id}
     </update>
+    <insert id="registerUserByEmail" parameterType="User">
+        insert into User(email, password) values(#{email}, #{password})
+    </insert>
+    <insert id="registerUserByPhone" parameterType="User">
+        insert into User(phone, password) values(#{phone}, #{password})
+    </insert>
+    <select id="selectUserByEmail" resultType="User">
+        select *
+        from User
+        where useremail =#{useremail}
+    </select>
+    <select id="selectUserByPhone" resultType="User">
+        select *
+        from User
+        where phone =#{phone}
+    </select>
 </mapper>
