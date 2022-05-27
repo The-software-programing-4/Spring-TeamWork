@@ -16,7 +16,7 @@ public class BookController {
     @Autowired
     private BookService bookService;
     @PostMapping("/api/book/message_get")
-    public Map<String, Object> message_get(@RequestBody String bookname){
+    public Map<String, Object> message_get(@RequestBody String bookname){//按照bookname来搜索
         Map<String, Object> map = new HashMap<>();
         try{
             Book book1 = bookService.selectBookByBookname(bookname);
@@ -48,6 +48,17 @@ public class BookController {
             e.printStackTrace();
             map.put("success", false);
             map.put("message", "异常错误！");
+        }
+        return map;
+    }
+
+    @PostMapping("/api/book/message_set")
+    public Map<String, Object> message_set(@RequestBody Map<Object, Object> re_map){
+        Map<String, Object> map = new HashMap<>();
+        try{
+
+        }catch (Exception e){
+
         }
         return map;
     }
