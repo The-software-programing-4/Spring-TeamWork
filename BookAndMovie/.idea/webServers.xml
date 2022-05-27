@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="2bcdeeb1-de15-48ac-9eab-bcb3c9c460db" name="spring_program" url="http://39.105.102.182">
+        <fileTransfer rootFolder="/home/selmiss_ftp" host="39.105.102.182" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
