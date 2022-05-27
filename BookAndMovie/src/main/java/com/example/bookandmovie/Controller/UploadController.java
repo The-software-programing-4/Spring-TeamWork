@@ -28,15 +28,6 @@ public class UploadController {
     public String uploadPage2(){
         return "upload2";
     }
-    @PostMapping("/upload")
-    @ResponseBody
-    public String create(@RequestPart MultipartFile file) throws IOException {
-        String fileName = file.getOriginalFilename();
-        String filePath = path + fileName;
 
-        File dest = new File(filePath);
-        Files.copy(file.getInputStream(), dest.toPath());
-        return "Upload file success : " + dest.getAbsolutePath();
-    }
 
 }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.bookandmovie.Dao.BookDao">
+    <select id="selectBookByBookname" resultType="Book">
+        select *
+        from Book
+        where bookname = #{bookname}
+    </select>
+    <select id="selectBookByBook_id" resultType="Book">
+        select *
+        from Book
+        where book_id = #{book_id}
+    </select>
+    <select id="selectBookByBookISBN" resultType="Book">
+        select *
+        from Book
+        where ISBN = #{ISBN}
+    </select>
+    <insert id="insertBook" parameterType="Book">
+        insert into Book(book_id, bookname, author, press, producer, origin_name, translator, publish_date, pages_number, price, bingding, ISBN, brief_introduction, promoting, brief_introduction_of_author, directory) values(#{book_id}, #{bookname}, #{author}, #{press}, #{producer}, #{origin_name}, #{translator}, #{publish_date}, #{pages_number}, #{price}, #{binding}, #{ISBN}, #{brief_introduction}, #{promoting}, #{brief_introduction_of_author}, #{directory})
+    </insert>
+</mapper>

@@ -1,9 +1,6 @@
 package com.example.bookandmovie.Entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -11,16 +8,76 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer s_id;
-
     private String username;
     private String password;
-    private String phoneNumber;
+    private String phone;
     private String email;
     private Date birthday;
-      private String province;
-      private String city;
-    private String homeProvince;
-    private String cityProvince;
+      private String hometown1;
+      private String hometown2;
+        private String hometown3;
+    private String livetown1;
+    private String livetown2;
+    private String livetown3;
+
+    public Integer getS_id() {
+        return s_id;
+    }
+    public User(String username, String password, int op){
+        if(op == 1)
+            this.setEmail(username);
+        else if(op == 2)
+            this.setPhone(username);
+
+        this.setPassword(password);
+    }
+    public void setS_id(Integer s_id) {
+        this.s_id = s_id;
+    }
+
+    public String getHometown1() {
+        return hometown1;
+    }
+
+    public void setHometown1(String hometown1) {
+        this.hometown1 = hometown1;
+    }
+
+    public String getHometown2() {
+        return hometown2;
+    }
+
+    public void setHometown2(String hometown2) {
+        this.hometown2 = hometown2;
+    }
+
+    public String getHometown3() {
+        return hometown3;
+    }
+
+    public void setHometown3(String hometown3) {
+        this.hometown3 = hometown3;
+    }
+
+    public String getLivetown1() {
+        return livetown1;
+    }
+
+    public void setLivetown1(String livetown1) {
+        this.livetown1 = livetown1;
+    }
+
+    public String getLivetown2() {
+        return livetown2;
+    }
+
+    public void setLivetown2(String livetown2) {
+        this.livetown2 = livetown2;
+    }
+
+    private String regionOP;
+      private String birthOP;
+
     public User(String username, String password)
     {
         this.username=username;
@@ -55,27 +112,11 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getPhone() {
+        return phone;
     }
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getProvince() {
-        return province;
-    }
-
-    public void setProvince(String province) {
-        this.province = province;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
+    public void setPhone(String phoneNumber) {
+        this.phone = phoneNumber;
     }
 
     public void setBirthday(Date birthday) {
@@ -86,19 +127,27 @@ public class User {
         return birthday;
     }
 
-    public String getCityProvince() {
-        return cityProvince;
+    public String getRegionOP() {
+        return regionOP;
     }
 
-    public String getHomeProvince() {
-        return homeProvince;
+    public void setRegionOP(String regionOP) {
+        this.regionOP = regionOP;
     }
 
-    public void setCityProvince(String cityProvice) {
-        this.cityProvince = cityProvice;
+    public String getBirthOP() {
+        return birthOP;
     }
 
-    public void setHomeProvince(String homeProvince) {
-        this.homeProvince = homeProvince;
+    public void setBirthOP(String birthOP) {
+        this.birthOP = birthOP;
+    }
+
+    public String getLivetown3() {
+        return livetown3;
+    }
+
+    public void setLivetown3(String livetown3) {
+        this.livetown3 = livetown3;
     }
 }

@@ -1,7 +1,7 @@
 package com.example.bookandmovie.Controller.User;
 
 import com.example.bookandmovie.Entity.User;
-import com.example.bookandmovie.Service.UserSevice;
+import com.example.bookandmovie.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,8 +13,8 @@ import java.util.Map;
 @RestController
 public class logoutController {
     @Autowired
-    private UserSevice userService;
-    @PostMapping("/logout")
+    private UserService userService;
+    @PostMapping("api/user/logout")
     public Map<String, Object> logout(HttpSession session)
     {
         String username = (String) session.getAttribute("username");
