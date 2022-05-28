@@ -175,7 +175,7 @@ public class UserController {
         String path1=root+"/src/main/resources/templates/userImg/"+username+".jpg";
         String path2=root+"/src/main/resources/templates/userImg/"+username+status+".jpg";
         System.out.println(path1);
-        System.out.println(path1);
+        System.out.println(path2);
         File file1=new File(path1);
         File file2=new File(path2);
         if(file1.exists())

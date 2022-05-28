@@ -19,7 +19,7 @@
     <insert id="insertBook" parameterType="Book">
         insert into Book(book_id, bookname, author, press, producer, origin_name, translator, publish_date, pages_number, price, binding, ISBN, brief_introduction, promoting, brief_introduction_of_author, directory, src, score) values(#{book_id}, #{bookname}, #{author}, #{press}, #{producer}, #{origin_name}, #{translator}, #{publish_date}, #{pages_number}, #{price}, #{binding}, #{ISBN}, #{brief_introduction}, #{promoting}, #{brief_introduction_of_author}, #{directory}, #{src}, #{score})
     </insert>
-    <select id="listBook" resultType="List">
+    <select id="listBook" resultType="Book">
         select *
         from Book
         order by score DESC

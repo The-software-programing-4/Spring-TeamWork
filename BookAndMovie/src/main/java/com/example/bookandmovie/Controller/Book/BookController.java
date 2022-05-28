@@ -26,10 +26,10 @@ public class BookController {
     //
 
     @PostMapping("/api/book/message_get")
-    public Map<String, Object> message_get(@RequestBody String bookname){//按照bookname来搜索
+    public Map<String, Object> message_get(@RequestBody int bookname){//按照bookname来搜索
         Map<String, Object> map = new HashMap<>();
         try{
-            Book book1 = bookService.selectBookByBookname(bookname);
+            Book book1 = bookService.selectBookByBook_id(bookname);
             if(book1 == null){
                 map.put("success", false);
                 map.put("message", "未找到该图书！");

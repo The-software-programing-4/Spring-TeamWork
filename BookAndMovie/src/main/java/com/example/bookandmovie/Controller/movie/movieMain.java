@@ -85,6 +85,7 @@ public class movieMain {
             i++;
             if(i>10) break;
         }
+        System.out.println("getall");
         remap.put("messages",arr);
         return remap;
     }
