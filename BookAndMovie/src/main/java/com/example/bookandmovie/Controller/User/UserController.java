@@ -3,6 +3,7 @@ package com.example.bookandmovie.Controller.User;
 import com.example.bookandmovie.Entity.User;
 import com.example.bookandmovie.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,7 +15,7 @@ import java.util.Map;
 public class UserController {
     @Autowired
     private UserService userSevice;
-    HttpSession session;
+    HttpSession httpSession;
     @PostMapping("api/user/register")
     public Map<String,Object> register(@RequestBody Map<String,String> re_map){
         String username = re_map.get("username");
@@ -48,10 +49,8 @@ public class UserController {
             String usernameA = (String) session.getAttribute("username");
             map.put("success",false);
             map.put("message",usernameA+"用户已登陆");
-            if(usernameA!=null)
-            return map;
+            if(usernameA!=null) return map;
         }catch (Exception e) {
-
         }
         String password = re_map.get("password");
 
@@ -130,7 +129,7 @@ public class UserController {
     public String updateImg(HttpSession session, @RequestBody MultipartFile file,String username){
         //String username = (String) session.getAttribute("username");
         String root=System.getProperty("user.dir");
-        String status=new String();
+        String status;
         status="_new";
         //System.out.println(root);
         if(username==null)
@@ -154,23 +153,29 @@ public class UserController {
         }
         return "Upload file success : " + file.getOriginalFilename();
     }
-    @GetMapping("api/user/getImg")
+    @GetMapping("api/user/getimg")
     @ResponseBody
     public Map<String,Object> getImg(HttpSession session)
     {
         String username = (String) session.getAttribute("username");
         Map<String,Object> map = new HashMap<>();
+        System.out.println(username);
         if(username==null)
         {
             map.put("username",username);
-            map.put("message",null);
+            map.put("message","未知错误");
             return map;
         }
         System.out.println("开始获取图片"+username);
-        String root=System.getProperty("user.dir");
+        String root=new String();
+        try{
+            root=System.getProperty("user.dir");
+        }catch (Exception e){System.out.println("root wrong");}
         String status="_new";
         String path1=root+"/src/main/resources/templates/userImg/"+username+".jpg";
         String path2=root+"/src/main/resources/templates/userImg/"+username+status+".jpg";
+        System.out.println(path1);
+        System.out.println(path1);
         File file1=new File(path1);
         File file2=new File(path2);
         if(file1.exists())
@@ -181,7 +186,7 @@ public class UserController {
             status="_new";
         else{
             map.put("username",username);
-            map.put("message",null);
+            map.put("message","noImg");
             return map;
         }
         map.put("username",username);

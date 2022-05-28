@@ -6,13 +6,10 @@ import com.example.bookandmovie.Service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.persistence.Lob;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.function.ObjIntConsumer;
 
 @RestController
 public class movieMain {
@@ -46,10 +43,10 @@ public class movieMain {
     }
 
     @PostMapping("/api/movie/message_get")
-    public Map<String, Object> message_get(@RequestBody String movie)
+    public Map<String, Object> message_get(@RequestBody int movie)
     {
         Map<String ,Object> remap=new HashMap<>();
-        Movie m = movieService.findMovie(movie);
+        Movie m = movieService.findMovieById(movie);
         {
             remap.put("message","success");
             remap.put("mid", m.getMid());
@@ -67,10 +64,9 @@ public class movieMain {
             remap.put("score", m.getScore());
             remap.put("brief_introduction", m.getBrief_introduction());
         }
-
         return remap;
     }
-    @PostMapping("/api/movie/listMovie")
+    @PostMapping("/api/movie/listmovie")
     public Map<String, Object> list_movie(@RequestBody String movie)
     {
         List<Movie> movies= movieService.listMovie();
@@ -118,7 +114,7 @@ public class movieMain {
         remap.put("messages",arr);
         return remap;
     }
-    @PostMapping("/api/movie/imgUpload")
+    @PostMapping("/api/movie/imgupload")
     public String updateMovieImg(HttpSession session, @RequestBody MultipartFile file, String name){
 
         String root=System.getProperty("user.dir");
@@ -138,13 +134,13 @@ public class movieMain {
         }
         return "Upload file success : " + file.getOriginalFilename();
     }
-    @GetMapping("api/movie/getImg")
+    @GetMapping("api/movie/getimg")
     @ResponseBody
     public Map<String,Object> getImg( @RequestBody  String name)
     {
         Map<String,Object> map = new HashMap<>();
         Movie movie = movieService.findMovie(name);
-        if(name==null || movie==null）
+        if(name==null || movie==null)
         {
             map.put("name",name);
             map.put("message","电影在数据库中不存在");

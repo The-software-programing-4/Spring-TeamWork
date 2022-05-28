@@ -9,6 +9,7 @@ import java.util.List;
 public interface MovieDao {
     public void addMovie(Movie movie);
     public Movie findMovie(String name);
+    public Movie findMovieById(int id);
     public List<Movie> listMovie();
 
 }

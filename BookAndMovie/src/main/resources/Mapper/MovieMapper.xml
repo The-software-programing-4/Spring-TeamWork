@@ -15,4 +15,7 @@
     <select id="listMovie" resultType="Movie">
         select * from `movie` order by `score` desc;
     </select>
+    <select id="findMovieById" resultType="Movie">
+        select * from movie where mid=#{id};
+    </select>
 </mapper>

@@ -18,4 +18,6 @@ public class MovieServiceMpl implements MovieService {
     public Movie findMovie(String name){return movieDao.findMovie(name);}
     @Override
     public List<Movie> listMovie(){return movieDao.listMovie();}
+    @Override
+    public Movie findMovieById(int id){return movieDao.findMovieById(id);}
 }

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.bookandmovie.Dao.MarkDao">
+    <insert id="addMark" parameterType="Mark">
+        insert into `marks`() values(#{id},#{type},#{target},#{uid},
+            #{content}, #{score},#{day},#{thumb},#{reply})   ;
+    </insert>
+    <select id="getMark" resultType="Mark">
+        select * from marks where type=#{type} and target=#{target};
+    </select>
+    <update id="replyadd" parameterType="int">
+        update marks set reply=reply+1 where id=#{target};
+    </update>
+    <update id="thumbChange" parameterType="int">
+        update marks set thumb=thumb+#{op} where id=#{target};
+    </update>
+    <select id="countMark_book" resultType="int">
+        select count(*) from marks where target=#{target} and type=1;
+    </select>
+    <select id="countMark_movie" resultType="int">
+        select count(*) from marks where target=#{target} and type=2;
+    </select>
+    <select id="culMark_movie" >
+        update movie set score=#{score} where mid=#{target};
+    </select>
+    <select id="culMark_book" >
+        update book set score=#{score} where book_id=#{target};
+    </select>
+</mapper>

@@ -227,8 +227,8 @@ public class UserController2 {
     }
 
     //注销
-    @RequestMapping("api/user/logout")
-    public Map<String, Object> userLogout(HttpSession session){
+    @RequestMapping("api/user/logout2")
+    public Map<String, Object> userLogout2(HttpSession session){
         Map<String, Object> map = new HashMap<>();
         try {
             //注销用户，使session失效
