@@ -3,16 +3,27 @@ package com.example.bookandmovie.Controller.Book;
 import com.example.bookandmovie.Entity.Book;
 import com.example.bookandmovie.Service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 @RestController
 public class BookController {
     @Autowired
     private BookService bookService;
+
+    //此处设置上传图片的链接 以及图片保存的url前缀
+    //这是本地存入的格式，上传到服务器的话，格式类似于，"/root/images/pc/"
+    private static String DOWNLOAD_FOLDER = "BookAndMovie/src/main/resources/templates/bookImg";
+    //
+
     @PostMapping("/api/book/message_get")
     public Map<String, Object> message_get(@RequestBody String bookname){//按照bookname来搜索
         Map<String, Object> map = new HashMap<>();
@@ -53,12 +64,12 @@ public class BookController {
     @PostMapping("/api/book/message_set")
     public Map<String, Object> message_set(@RequestBody Map<String, Object> re_map){
         Map<String, Object> map = new HashMap<>();
-        Integer book_id, pages_number, ISBN;
-        String bookname, author, press, producer, origin_name, translator, binding, brief_introduction, promoting,brief_introduction_of_author, directory;
+        Integer book_id, pages_number;
+        String ISBN, bookname, author, press, producer, origin_name, translator, binding, brief_introduction, promoting,brief_introduction_of_author, directory;
         double price;
         Date publish_date;
         book_id =(Integer) re_map.get("book_id");
-        ISBN = (Integer) re_map.get("ISBN");
+        ISBN = (String) re_map.get("ISBN");
         try{
             Book book1 = bookService.selectBookByBook_id(book_id);
             Book book2 = bookService.selectBookByBookISBN(ISBN);
@@ -100,7 +111,7 @@ public class BookController {
     }
 
     @PostMapping("api/book/listBook")
-    public Map<String, Object> listBook(){
+    public Map<String, Object> listBook(){//选取十本最受好评的图书
         List<Book> books = bookService.listBook();
         Map<String, Object> remap = new HashMap<>();
         int i = 1;
@@ -118,5 +129,157 @@ public class BookController {
         }
         remap.put("messages", arr);
         return remap;
+    }
+
+    @PostMapping("api/book/insertImg")
+    public Map<String, Object> insertImg(@RequestBody String ISBN, String img_location){//此方法可用来远程处理图片链接
+        Map<String, Object> map = new HashMap<>();
+        try{
+            Book book1 = bookService.selectBookByBookISBN(ISBN);
+            if(book1 == null){
+                map.put("success", false);
+                map.put("message", "未找到该图书！");
+            }else{
+                map.put("book_id", book1.getBook_id());
+                map.put("bookname", book1.getBookname());//简要返回找到的书籍的信息
+                if(book1.getSrc() == null)
+                {
+                    book1.setSrc(img_location);//将图书的图片链接设定
+                    map.put("success", true);
+                    map.put("message", "该图书图片设定成功！");
+                }else {
+                    book1.setSrc(img_location);
+                    map.put("success", true);
+                    map.put("message", "该图书图片更新成功！");
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            map.put("success", false);
+            map.put("message", "图片设置出现异常错误！");
+        }
+        return map;
+    }
+    /*
+    @PostMapping("api/book/downloadImg")
+    public Map<String, Object> downloadImg(MultipartFile target){
+        Map<String, Object> map = new HashMap<>();
+        if(Objects.isNull(target) || target.isEmpty()){
+            map.put("success", false);
+            map.put("message", "文件为空，请重新上传");
+            return map;
+        }
+        try{
+            byte[] bytes = target.getBytes();
+            //要存入本地的地址放到path里面
+            Path path = Paths.get(DOWNLOAD_FOLDER+"/");
+            //获取文件的后缀名
+            String extension = target.getOriginalFilename().substring(target.getOriginalFilename().lastIndexOf("."));
+            UUID uuid = UUID.randomUUID();//调用UUID获取全宇宙唯一的真名
+            String str = uuid.toString();
+            String imgName = str.substring(0, 8) + str.substring(9, 13) + str.substring(14, 18) + str.substring(19, 23) + str.substring(24);
+            //去掉了uuid中看起来不顺眼的"-"
+            String relativeAddr = imgName + extension;//唯一的名字接上后缀
+            File saveFile = new File(relativeAddr);
+            target.transferTo(saveFile);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return map;
+    }
+    */
+
+    @PostMapping("/api/book/uploadImg")
+    public String uploadImg(HttpSession session, @RequestBody MultipartFile file, String bookname){
+        String root=System.getProperty("user.dir");
+        String status=new String();
+        status="_new";
+        //System.out.println(root);
+        if(bookname==null)
+            return "书籍名为空！";
+        String path1=root+"/src/main/resources/templates/bookImg/"+bookname+".jpg";
+        String path2=root+"/src/main/resources/templates/bookImg/"+bookname+status+".jpg";
+        File fileEx1=new File(path1);
+        File fileEx2=new File(path2);
+        if(fileEx1.exists())
+        {
+            fileEx1.delete();
+        }
+        else if(fileEx2.exists()){
+            fileEx2.delete();
+            status="";
+        }
+        File fileStore=new File(root+"/src/main/resources/templates/bookImg",bookname+status+".jpg");
+        try{file.transferTo(fileStore);}
+        catch (Exception e){
+            return "文件写入失败";
+        }
+        return "Upload file success : " + file.getOriginalFilename();
+    }
+
+    /*@PostMapping("api/book/getImg")
+    public Map<String, Object> getImg(@RequestBody String ISBN){
+        Map<String, Object> map = new HashMap<>();
+        try{
+            Book book1 = bookService.selectBookByBookISBN(ISBN);
+            if(book1 == null){
+                map.put("success", false);
+                map.put("message", "未找到该图书！");
+            }else {
+                map.put("book_id", book1.getBook_id());
+                map.put("bookname", book1.getBookname());//简要返回找到的书籍的信息
+                String src = book1.getSrc();
+                if(src == null){
+                    map.put("success", false);
+                    map.put("message", "该图书图片为空！");
+                }else{
+                    map.put("success", true);
+                    map.put("message", "成功获取该图书图片");
+                    map.put("src", src);
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            map.put("success", false);
+            map.put("message", "图片获取出现异常错误！");
+        }
+        return map;
+    }
+    */
+
+    @GetMapping("api/book/getImg")
+    @ResponseBody
+    public Map<String,Object> getImg(HttpSession session)
+    {
+        String bookname = (String) session.getAttribute("bookname");
+        Map<String,Object> map = new HashMap<>();
+        if(bookname==null)
+        {
+            map.put("bookname",bookname);
+            map.put("message",null);
+            return map;
+        }
+        System.out.println("开始获取图片"+bookname);
+        String root=System.getProperty("user.dir");
+        String status="_new";
+        String path1=root+"/src/main/resources/templates/bookImg/"+bookname+".jpg";
+        String path2=root+"/src/main/resources/templates/bookImg/"+bookname+status+".jpg";
+        File file1=new File(path1);
+        File file2=new File(path2);
+        if(file1.exists())
+        {
+            status="";
+        }
+        else if(file2.exists())
+            status="_new";
+        else{
+            map.put("bookname",bookname);
+            map.put("message",null);
+            return map;
+        }
+        map.put("bookname",bookname);
+        map.put("message","templates/bookImg/"+bookname+status+".jpg");
+        return map;
     }
 }

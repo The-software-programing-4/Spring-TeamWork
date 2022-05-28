@@ -9,7 +9,7 @@ import java.util.List;
 public interface BookDao {
     Book selectBookByBookname(String bookname);
     Book selectBookByBook_id(Integer book_id);
-    Book selectBookByBookISBN(Integer ISBN);
+    Book selectBookByBookISBN(String ISBN);
     void insertBook(Book book);
     List listBook();
 }
