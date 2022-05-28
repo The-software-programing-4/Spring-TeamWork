@@ -4,11 +4,12 @@ import com.example.bookandmovie.Controller.EditDistance;
 import com.example.bookandmovie.Entity.Movie;
 import com.example.bookandmovie.Service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Lob;
+import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.ObjIntConsumer;
@@ -116,6 +117,54 @@ public class movieMain {
         }
         remap.put("messages",arr);
         return remap;
+    }
+    @PostMapping("/api/movie/imgUpload")
+    public String updateMovieImg(HttpSession session, @RequestBody MultipartFile file, String name){
+
+        String root=System.getProperty("user.dir");
+        Movie movie = movieService.findMovie(name);
+        if(name==null || movie==null)
+            return "电影不存在";
+        String path=root+"/src/main/resources/templates/userImg/"+name+".jpg";
+        File fileEx1=new File(path);
+        if(fileEx1.exists())
+        {
+            fileEx1.delete();
+        }
+        File fileStore=new File(root+"/src/main/resources/templates/userImg",name+".jpg");
+        try{file.transferTo(fileStore);}
+        catch (Exception e){
+            return "文件写入失败";
+        }
+        return "Upload file success : " + file.getOriginalFilename();
+    }
+    @GetMapping("api/movie/getImg")
+    @ResponseBody
+    public Map<String,Object> getImg( @RequestBody  String name)
+    {
+        Map<String,Object> map = new HashMap<>();
+        Movie movie = movieService.findMovie(name);
+        if(name==null || movie==null）
+        {
+            map.put("name",name);
+            map.put("message","电影在数据库中不存在");
+            return map;
+        }
+        System.out.println("开始获取电影图片"+name);
+        String root=System.getProperty("user.dir");
+        String path1=root+"/src/main/resources/templates/movieImg/"+name+".jpg";
+        File file1=new File(path1);
+        if(file1.exists())
+        {
+            map.put("username", name);
+            map.put("message", "templates/movieImg/" + name + ".jpg");
+            return map;
+        }
+        else{
+            map.put("username",name);
+            map.put("message","电影不存在");
+            return map;
+        }
     }
 
 }
