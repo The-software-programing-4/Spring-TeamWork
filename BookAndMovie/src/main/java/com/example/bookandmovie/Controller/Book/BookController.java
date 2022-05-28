@@ -53,12 +53,12 @@ public class BookController {
     @PostMapping("/api/book/message_set")
     public Map<String, Object> message_set(@RequestBody Map<String, Object> re_map){
         Map<String, Object> map = new HashMap<>();
-        Integer book_id, pages_number, ISBN;
-        String bookname, author, press, producer, origin_name, translator, binding, brief_introduction, promoting,brief_introduction_of_author, directory;
+        Integer book_id, pages_number;
+        String ISBN, bookname, author, press, producer, origin_name, translator, binding, brief_introduction, promoting,brief_introduction_of_author, directory;
         double price;
         Date publish_date;
         book_id =(Integer) re_map.get("book_id");
-        ISBN = (Integer) re_map.get("ISBN");
+        ISBN = (String) re_map.get("ISBN");
         try{
             Book book1 = bookService.selectBookByBook_id(book_id);
             Book book2 = bookService.selectBookByBookISBN(ISBN);
@@ -100,7 +100,7 @@ public class BookController {
     }
 
     @PostMapping("api/book/listBook")
-    public Map<String, Object> listBook(){
+    public Map<String, Object> listBook(){//选取十本最受好评的图书
         List<Book> books = bookService.listBook();
         Map<String, Object> remap = new HashMap<>();
         int i = 1;
@@ -118,5 +118,64 @@ public class BookController {
         }
         remap.put("messages", arr);
         return remap;
+    }
+
+    @PostMapping("api/book/insertImg")
+    public Map<String, Object> insertImg(@RequestBody String ISBN, String img_location){
+        Map<String, Object> map = new HashMap<>();
+        try{
+            Book book1 = bookService.selectBookByBookISBN(ISBN);
+            if(book1 == null){
+                map.put("success", false);
+                map.put("message", "未找到该图书！");
+            }else{
+                map.put("book_id", book1.getBook_id());
+                map.put("bookname", book1.getBookname());//简要返回找到的书籍的信息
+                if(book1.getSrc() == null)
+                {
+                    book1.setSrc(img_location);//将图书的图片链接设定
+                    map.put("success", true);
+                    map.put("message", "该图书图片设定成功！");
+                }else {
+                    book1.setSrc(img_location);
+                    map.put("success", true);
+                    map.put("message", "该图书图片更新成功！");
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            map.put("success", false);
+            map.put("message", "图片设置出现异常错误！");
+        }
+        return map;
+    }
+
+    @PostMapping("api/book/getImg")
+    public Map<String, Object> getImg(@RequestBody String ISBN){
+        Map<String, Object> map = new HashMap<>();
+        try{
+            Book book1 = bookService.selectBookByBookISBN(ISBN);
+            if(book1 == null){
+                map.put("success", false);
+                map.put("message", "未找到该图书！");
+            }else {
+                map.put("book_id", book1.getBook_id());
+                map.put("bookname", book1.getBookname());//简要返回找到的书籍的信息
+                String src = book1.getSrc();
+                if(src == null){
+                    map.put("success", false);
+                    map.put("message", "该图书图片为空！");
+                }else{
+                    map.put("success", true);
+                    map.put("message", "成功获取该图书图片");
+                    map.put("src", src);
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            map.put("success", false);
+            map.put("message", "图片获取出现异常错误！");
+        }
+        return map;
     }
 }

@@ -7,7 +7,7 @@ import java.util.List;
 public interface BookService {
     Book selectBookByBookname(String bookname);
     Book selectBookByBook_id(Integer book_id);
-    Book selectBookByBookISBN(Integer ISBN);
+    Book selectBookByBookISBN(String ISBN);
     void insertBook(Book book);
     List listBook();
 }

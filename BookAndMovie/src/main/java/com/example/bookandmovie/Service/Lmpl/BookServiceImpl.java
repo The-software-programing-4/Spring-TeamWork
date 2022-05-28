@@ -19,7 +19,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book selectBookByBook_id(Integer book_id) {return bookDao.selectBookByBook_id(book_id);}
     @Override
-    public Book selectBookByBookISBN(Integer ISBN) {return bookDao.selectBookByBookISBN(ISBN);}
+    public Book selectBookByBookISBN(String ISBN) {return bookDao.selectBookByBookISBN(ISBN);}
     @Override
     public void insertBook(Book book){bookDao.insertBook(book);}
     @Override
