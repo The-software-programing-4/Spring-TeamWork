@@ -1,5 +1,6 @@
 package com.example.bookandmovie.Controller.Book;
 
+import com.example.bookandmovie.Controller.EditDistance;
 import com.example.bookandmovie.Entity.Book;
 import com.example.bookandmovie.Service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -269,5 +270,32 @@ public class BookController {
             map.put("message","图书不存在");
             return map;
         }
+    }
+
+    @PostMapping("/api/book/booksearch")
+    public Map<String, Object> searchBook(@RequestBody String key)
+    {
+        List<Book> books= bookService.listBook();
+        Map<String, Object> remap=new HashMap<>();
+        List<Map> arr=new ArrayList<>();
+        EditDistance editDistance=new EditDistance();
+        int editD;
+        for(Book b:books)
+        {
+            editD=editDistance.solve(b.getBookname(),key);
+            if(editD<b.getBookname().length())
+            {
+                Map<String,Object> map_temp=new HashMap<>();
+                map_temp.put("bookname",b.getBookname());
+                map_temp.put("src", b.getSrc());
+                map_temp.put("book_id", b.getBook_id());
+                map_temp.put("score", b.getScore());
+                map_temp.put("author", b.getAuthor());
+                map_temp.put("press", b.getPress());
+                arr.add(map_temp);
+            }
+        }
+        remap.put("messages",arr);
+        return remap;
     }
 }
