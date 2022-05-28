@@ -193,26 +193,19 @@ public class BookController {
     @PostMapping("/api/book/uploadImg")
     public String uploadImg(HttpSession session, @RequestBody MultipartFile file, String bookname){
         String root=System.getProperty("user.dir");
-        String status=new String();
-        status="_new";
-        //System.out.println(root);
-        if(bookname==null)
-            return "书籍名为空！";
-        String path1=root+"/src/main/resources/templates/bookImg/"+bookname+".jpg";
-        String path2=root+"/src/main/resources/templates/bookImg/"+bookname+status+".jpg";
-        File fileEx1=new File(path1);
-        File fileEx2=new File(path2);
-        if(fileEx1.exists())
-        {
+        Book book = bookService.selectBookByBookname(bookname);
+
+        if(bookname==null || book==null)
+            return "图书不存在！";
+        String path = root + "/src/main/resources/templates/bookImg" + bookname + ".jpg";
+        File fileEx1 = new File(path);
+        if(fileEx1.exists()){
             fileEx1.delete();
         }
-        else if(fileEx2.exists()){
-            fileEx2.delete();
-            status="";
-        }
-        File fileStore=new File(root+"/src/main/resources/templates/bookImg",bookname+status+".jpg");
-        try{file.transferTo(fileStore);}
-        catch (Exception e){
+        File fileStore = new File(root + "/src/main/resources/templates/bookImg" + bookname + ".jpg");
+        try{
+            file.transferTo(fileStore);
+        }catch (Exception e){
             return "文件写入失败";
         }
         return "Upload file success : " + file.getOriginalFilename();
@@ -254,32 +247,27 @@ public class BookController {
     {
         String bookname = (String) session.getAttribute("bookname");
         Map<String,Object> map = new HashMap<>();
-        if(bookname==null)
+        Book book = bookService.selectBookByBookname(bookname);
+        if(bookname==null || book == null)
         {
             map.put("bookname",bookname);
-            map.put("message",null);
+            map.put("message","图书在数据库中不存在");
             return map;
         }
-        System.out.println("开始获取图片"+bookname);
+        System.out.println("开始获取图书图片"+bookname);
         String root=System.getProperty("user.dir");
-        String status="_new";
         String path1=root+"/src/main/resources/templates/bookImg/"+bookname+".jpg";
-        String path2=root+"/src/main/resources/templates/bookImg/"+bookname+status+".jpg";
         File file1=new File(path1);
-        File file2=new File(path2);
         if(file1.exists())
         {
-            status="";
-        }
-        else if(file2.exists())
-            status="_new";
-        else{
             map.put("bookname",bookname);
-            map.put("message",null);
+            map.put("message", "template/bookImg" + bookname + ".jpg");
             return map;
         }
-        map.put("bookname",bookname);
-        map.put("message","templates/bookImg/"+bookname+status+".jpg");
-        return map;
+        else{
+            map.put("bookname",bookname);
+            map.put("message","图书不存在");
+            return map;
+        }
     }
 }
