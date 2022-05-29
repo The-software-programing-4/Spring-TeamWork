@@ -13,8 +13,9 @@
     <update id="replyadd" parameterType="int">
         update marks set reply=reply+1 where id=#{target};
     </update>
-    <update id="thumbChange" parameterType="int">
+    <update id="thumbChange" >
         update marks set thumb=thumb+#{op} where id=#{target};
+        insert into thumb(uid,mid) values (#{uid},#{target})
     </update>
     <select id="countMark_book" resultType="int">
         select count(*) from marks where target=#{target} and type=1;
@@ -27,5 +28,8 @@
     </select>
     <select id="culMark_book" >
         update book set score=#{score} where book_id=#{target};
+    </select>
+    <select id="isthumb" resultType="Mark">
+        select * from marks where uid=#{uid} and id=#{id};
     </select>
 </mapper>

@@ -9,6 +9,7 @@ com/example/bookandmovie/Controller/User/UserController.class
 com/example/bookandmovie/Service/BookService.class
 com/example/bookandmovie/Controller/User/logoutController.class
 com/example/bookandmovie/Controller/UploadController.class
+com/example/bookandmovie/Entity/Post.class
 com/example/bookandmovie/Entity/Movie.class
 com/example/bookandmovie/Entity/Book.class
 com/example/bookandmovie/Controller/User/UserController2.class

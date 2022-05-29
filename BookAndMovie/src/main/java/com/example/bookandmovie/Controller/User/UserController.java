@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.util.HashMap;
@@ -15,7 +18,8 @@ import java.util.Map;
 public class UserController {
     @Autowired
     private UserService userSevice;
-    HttpSession httpSession;
+    @Autowired
+    private HttpServletRequest request;
     @PostMapping("api/user/register")
     public Map<String,Object> register(@RequestBody Map<String,String> re_map){
         String username = re_map.get("username");
@@ -42,18 +46,29 @@ public class UserController {
         return map;
     }
     @PostMapping("api/user/login")
-    public Map<String,Object> login(HttpSession session,@RequestBody Map<String,String> re_map){
+    public Map<String,Object> login(@RequestBody Map<String,String> re_map,HttpServletRequest request){
         String username = re_map.get("username");
         Map<String,Object> map = new HashMap<>();
-        try {
-            String usernameA = (String) session.getAttribute("username");
-            map.put("success",false);
-            map.put("message",usernameA+"用户已登陆");
-            if(usernameA!=null) return map;
-        }catch (Exception e) {
+        HttpSession session=request.getSession();
+        Cookie[] cookies = request.getCookies();
+        if(cookies != null){
+            for(Cookie cookie : cookies){
+                System.out.println(cookie.getName());
+                System.out.println(cookie.getValue());
+            }
         }
-        String password = re_map.get("password");
+        else {System.out.println("no cookies");}
+        try {
+            String usernameA = (String) request.getSession().getAttribute("username");
+            map.put("success",true);
+            map.put("message",usernameA+"用户已登陆");
+            if(usernameA!=null)
+                return map;
+        }catch (Exception e) {
+            System.out.println("no session");
+        }
 
+        String password = re_map.get("password");
         map.put("success","unknown");
         try{
             User user = userSevice.selectUserByUsername(username);
@@ -74,6 +89,9 @@ public class UserController {
                     session.setAttribute("username",username);
                     session.setAttribute("password",password);
                     session.setAttribute("uid",user.get_id());
+                    Integer t1=(Integer)request.getSession().getAttribute("uid");
+                    String r1=(String)request.getSession().getAttribute("username");
+                    map.put("t1",t1);   map.put("r1",r1);
                 }
                 else{
                     map.put("success",false);
@@ -89,6 +107,9 @@ public class UserController {
                     session.setAttribute("username",username);
                     session.setAttribute("password",password);
                     session.setAttribute("uid",user.get_id());
+                    Integer t1=(Integer)request.getSession().getAttribute("uid");
+                    String r1=(String)request.getSession().getAttribute("username");
+                    map.put("t1",t1);   map.put("r1",r1);
                 }
                 else{
                     map.put("success",false);
@@ -103,10 +124,10 @@ public class UserController {
         return map;
     }
     @PostMapping("api/user/check")
-    public Map<String,Object> check(HttpSession session) {
+    public Map<String,Object> check() {
 
-        String username = (String) session.getAttribute("username");
-        Integer uid = (Integer) session.getAttribute("uid");
+        String username = (String) request.getSession().getAttribute("username");
+        Integer uid = (Integer) request.getSession().getAttribute("uid");
         Map<String, Object> map = new HashMap<>();
         try {
             User user = userSevice.selectUserByUsername(username);
@@ -126,8 +147,9 @@ public class UserController {
         return map;
     }
     @PostMapping("/api/user/imgUpload")
-    public String updateImg(HttpSession session, @RequestBody MultipartFile file,String username){
-        //String username = (String) session.getAttribute("username");
+    public String updateImg( @RequestBody MultipartFile file,String username){
+        //String username = (String) request.getSession().getAttribute("username");
+
         String root=System.getProperty("user.dir");
         String status;
         status="_new";
@@ -154,10 +176,9 @@ public class UserController {
         return "Upload file success : " + file.getOriginalFilename();
     }
     @GetMapping("api/user/getimg")
-    @ResponseBody
-    public Map<String,Object> getImg(HttpSession session)
+    public Map<String,Object> getImg()
     {
-        String username = (String) session.getAttribute("username");
+        String username = (String) request.getSession().getAttribute("username");
         Map<String,Object> map = new HashMap<>();
         System.out.println(username);
         if(username==null)

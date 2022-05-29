@@ -4,6 +4,7 @@ import com.example.bookandmovie.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -12,6 +13,8 @@ import java.util.*;
 public class changeMessage {
     @Autowired
     private UserService userSevice;
+    @Autowired
+    private HttpServletRequest request;
     @PostMapping("api/user/message_set")
     public String changeMessage(@RequestBody Map<Object,Object> re_map){
         User user = new User();
@@ -52,9 +55,9 @@ public class changeMessage {
     }
     @GetMapping("api/user/message_get")
     @ResponseBody
-    public Map<String,Object> getMessage(HttpSession session)
+    public Map<String,Object> getMessage()
     {
-        Integer uid = (Integer) session.getAttribute("uid");
+        Integer uid = (Integer) request.getSession().getAttribute("uid");
         Map<String,Object> map = new HashMap<>();
         System.out.println("开始获取信息"+uid);
         User user = userSevice.selectUserByUid(uid);
@@ -83,10 +86,10 @@ public class changeMessage {
         return map;
     }
     @PostMapping("api/user/password_set")
-    public Map<String ,Object> changePassword(HttpSession session,@RequestBody Map<Object,String> re_map)
+    public Map<String ,Object> changePassword(@RequestBody Map<Object,String> re_map)
     {
         //Integer uid = Integer.valueOf(re_map.get("uid"));
-        Integer uid = (Integer) session.getAttribute("uid");
+        Integer uid = (Integer) request.getSession().getAttribute("uid");
         String password1=re_map.get("password_temp1");
         String password=re_map.get("password_temp");
         User user=userSevice.selectUserByUid(uid);
@@ -100,7 +103,7 @@ public class changeMessage {
         else {
             userSevice.changPassword(password1,uid);
             map.put("message","修改成功，请重新登陆");
-            session.invalidate();
+            request.getSession().invalidate();
 
             return  map;
         }

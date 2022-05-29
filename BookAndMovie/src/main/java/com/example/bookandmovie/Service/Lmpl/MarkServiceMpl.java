@@ -19,7 +19,7 @@ public class MarkServiceMpl implements MarkService {
     @Override
     public void replyadd(int target){markDao.replyadd(target);}
     @Override
-    public void thumbChange(int target,int op){markDao.thumbChange(target, op);}
+    public void thumbChange(int target,int op,int uid){markDao.thumbChange(target, op,uid);}
     @Override
     public int countMark_book(int target){return markDao.countMark_book(target);}
     @Override
@@ -28,4 +28,6 @@ public class MarkServiceMpl implements MarkService {
     public int culMark_book(int target,double score){return markDao.culMark_book(target,score);}
     @Override
     public int culMark_movie(int target,double score){return markDao.culMark_movie(target, score);}
+    @Override
+    public Mark isthumb(int uid,int id){return markDao.isthumb(uid,id);};
 }

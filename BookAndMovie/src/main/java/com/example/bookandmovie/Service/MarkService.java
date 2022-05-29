@@ -9,9 +9,10 @@ public interface MarkService {
     public void addMark(Mark mark);
     public List<Mark> getMark(int type, int target);
     public void replyadd(int target);
-    public void thumbChange(int target,int op);
+    public void thumbChange(int target,int op,int uid);
     public int countMark_book(int target);
     public int countMark_movie(int target);
     public int culMark_book(int target,double score);
     public int culMark_movie(int target,double score);
+    public Mark isthumb(int uid,int id);
 }

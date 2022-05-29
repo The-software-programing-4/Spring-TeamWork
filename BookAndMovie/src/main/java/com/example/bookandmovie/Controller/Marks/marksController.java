@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -56,9 +57,10 @@ public class marksController {
     }
 
     @PostMapping("/api/marks/getmark")
-    public Map<String, Object> getMark(@RequestBody Map<String, Object> map) {
+    public Map<String, Object> getMark(HttpSession session,@RequestBody Map<String, Object> map) {
         int type = (int) map.get("type");
         int target = (int) map.get("target");
+        int uid= (int)session.getAttribute("uid");
         List<Mark> marks ;
         marks = markService.getMark(type, target);
         Map<String, Object> remap = new HashMap<>();
@@ -77,6 +79,9 @@ public class marksController {
             map_temp.put("day", e.getDay());
             map_temp.put("thumb", e.getThumb());
             map_temp.put("reply", e.getReply());
+            Mark t=markService.isthumb(uid,e.getId());
+            if(t==null) map_temp.put("isthumb","点赞");
+            else map_temp.put("isthumb","已点赞");
             arr.add(map_temp);
         }
         remap.put("marks", arr);
@@ -86,10 +91,11 @@ public class marksController {
     }
 
     @PostMapping("/api/marks/thumb")
-    public String thumbChange(@RequestBody Map<String, Object> map) {
+    public String thumbChange(HttpSession session,@RequestBody Map<String, Object> map) {
+        int uid= (int)session.getAttribute("uid");
         int op=(int)map.get("op");
         int target=(int)map.get("target");
-        try{markService.thumbChange(target,op);}
+        try{markService.thumbChange(target,op,uid);}
         catch (Exception e){System.out.println("点赞修改成功");}
         return "点赞修改失败";
     }
