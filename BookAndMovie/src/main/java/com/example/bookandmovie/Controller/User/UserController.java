@@ -3,12 +3,10 @@ package com.example.bookandmovie.Controller.User;
 import com.example.bookandmovie.Entity.User;
 import com.example.bookandmovie.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
@@ -46,7 +44,7 @@ public class UserController {
         return map;
     }
     @PostMapping("api/user/login")
-    public Map<String,Object> login(@RequestBody Map<String,String> re_map,HttpServletRequest request){
+    public Map<String,Object> login(@RequestBody Map<String,String> re_map){
         String username = re_map.get("username");
         Map<String,Object> map = new HashMap<>();
         HttpSession session=request.getSession();
