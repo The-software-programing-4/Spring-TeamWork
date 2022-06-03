@@ -67,7 +67,7 @@ public class movieMain {
         return remap;
     }
     @PostMapping("/api/movie/listmovie")
-    public Map<String, Object> list_movie(@RequestBody String movie)
+    public Map<String, Object> list_movie()
     {
         List<Movie> movies= movieService.listMovie();
         Map<String, Object> remap=new HashMap<>();
