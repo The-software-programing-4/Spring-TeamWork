@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,9 +27,8 @@ public class PostController {
                 map.put("message", "未找到该帖子！");
             }else{
                 map.put("username", post1.getUsername());
-                map.put("src", post1.getSrc());//这个地方还是不太明白前端的需求 返回一个 包含图片地址的字符串数组 可以实现吗 方便实现吗？
-                //多加了一个参数 这是src数组的length 表示总共有几张图片
-                map.put("length", post1.getSrc().length);//
+                map.put("src", post1.getSrc());//      这个地方还是不太明白前端的需求
+                map.put("length", post1.getLength());//有几张图片
                 map.put("date", post1.getDate());
                 map.put("content", post1.getContent());
                 map.put("thumbs", post1.getThumbs());
@@ -43,5 +44,28 @@ public class PostController {
             map.put("message", "查找帖子异常！");
         }
         return map;
+    }
+
+    @PostMapping("/api/post/addPost")
+    public Map<String, Object> addPost(@RequestBody Map<Object, Object> map){
+        Map<String, Object> remap = new HashMap<>();
+        Date date = new Date();
+        int pid = (int) map.get("mid");
+        String src = (String) map.get("src");
+        String username = (String) map.get("username");
+        String content = (String) map.get("content");
+        Integer thumbs = (Integer) map.get("thumbs");
+        Integer response = (Integer) map.get("response");
+        Integer transmit = (Integer) map.get("transmit");
+        Integer length = (Integer) map.get("length");
+        try{
+            date = new SimpleDateFormat("yyyy-MM-dd").parse((String)map.get("date"));
+        }catch (Exception e){
+            System.out.println("date wrong in post");
+        }
+        Post post = new Post(pid, src, username, content, thumbs, response, transmit, date, length);
+        postService.addPost(post);
+        remap.put("message", "success");
+        return remap;
     }
 }
