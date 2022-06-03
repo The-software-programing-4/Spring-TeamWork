@@ -97,6 +97,7 @@ public class movieMain {
         List<Map> arr=new ArrayList<>();
         EditDistance editDistance=new EditDistance();
         int editD;
+        System.out.println(key);
         for(Movie e:movies)
         {
             editD=editDistance.solve(e.getName(),key);
@@ -109,6 +110,7 @@ public class movieMain {
                 map_temp.put("score", e.getScore());
                 map_temp.put("actors", e.getActors());
                 map_temp.put("category", e.getCategory());
+                map_temp.put("brief_introduction",e.getBrief_introduction());
                 arr.add(map_temp);
             }
         }
