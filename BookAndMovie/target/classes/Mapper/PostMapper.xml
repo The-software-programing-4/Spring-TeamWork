@@ -7,7 +7,7 @@
         select * from post where pid = #{pid}
     </select>
     <insert id="addPost" parameterType="Post">
-        insert into post(username, src, date, content, thumbs, response, transmit)
-        values(#{username}, #{src}, #{date}, #{content}, #{thumbs}, #{response}, #{transmit})
+        insert into post(username, src, date, content, thumbs, response, transmit, length)
+        values(#{username}, #{src}, #{date}, #{content}, #{thumbs}, #{response}, #{transmit}, #{length})
     </insert>
 </mapper>

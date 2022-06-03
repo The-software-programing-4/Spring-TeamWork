@@ -21,6 +21,32 @@ public class Post {//帖子 实体
 
     private String username;
     private String src;
+    private Integer length;//图片数量
+    private Date date;//发布时间
+    private String content;//内容
+    private Integer thumbs;//点赞数
+    private Integer response;//回应
+    private Integer transmit;//转发数
+
+    public Post(){}
+    public Post(int pid, String src, String username, String content, Integer thumbs, Integer response, Integer transmit, Date date, Integer length){
+        this.username = username;
+        this.transmit= transmit;
+        this.src = src;
+        this.response = response;
+        this.pid = pid;
+        this.date = date;
+        this.thumbs = thumbs;
+        this.content = content;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public String getSrc() {
         return src;
@@ -30,19 +56,6 @@ public class Post {//帖子 实体
         this.src = src;
     }
 
-    private Date date;//发布时间
-    private String content;//内容
-    private Integer thumbs;//点赞数
-    private Integer response;//回应
-    private Integer transmit;//转发数
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
     public Date getDate() {
         return date;
     }
@@ -81,5 +94,13 @@ public class Post {//帖子 实体
 
     public void setTransmit(Integer transmit) {
         this.transmit = transmit;
+    }
+
+    public Integer getLength() {
+        return length;
+    }
+
+    public void setLength(Integer length) {
+        this.length = length;
     }
 }
