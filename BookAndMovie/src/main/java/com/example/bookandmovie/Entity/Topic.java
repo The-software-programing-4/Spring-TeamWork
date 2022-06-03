@@ -13,6 +13,8 @@ public class Topic {
     //topic_id 为自增的主键
     private Integer focus;//关注数量
 
+    private Integer num;//表示一共有多少个帖子
+
     @Lob
     private String introduction;//简介
 
@@ -49,5 +51,13 @@ public class Topic {
 
     public void setPost_arr(ArrayList<Integer> post_arr) {
         this.post_arr = post_arr;
+    }
+
+    public Integer getNum() {
+        return num;
+    }
+
+    public void setNum(Integer num) {
+        this.num = num;
     }
 }
