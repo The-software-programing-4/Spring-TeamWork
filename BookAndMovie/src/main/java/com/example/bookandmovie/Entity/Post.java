@@ -20,7 +20,16 @@ public class Post {//帖子 实体
     }
 
     private String username;
-    private String[] src;
+    private String src;
+
+    public String getSrc() {
+        return src;
+    }
+
+    public void setSrc(String src) {
+        this.src = src;
+    }
+
     private Date date;//发布时间
     private String content;//内容
     private Integer thumbs;//点赞数
@@ -34,15 +43,6 @@ public class Post {//帖子 实体
     public void setUsername(String username) {
         this.username = username;
     }
-
-    public String[] getSrc() {
-        return src;
-    }
-
-    public void setSrc(String[] src) {
-        this.src = src;
-    }
-
     public Date getDate() {
         return date;
     }
