@@ -4,35 +4,35 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bookandmovie.Dao.UserDao">
     <select id="selectUserByUsername" resultType="User">
-        select * from USER where username = #{username}
+        select * from USER where username = #{username};
     </select>
     <insert id="registerNewUser" parameterType="User">
-        insert into `USER`(`username`,`password`) values(#{username},#{password})
+        insert into `USER`(`username`,`password`) values(#{username},#{password});
     </insert>
     <select id="selectUserByPhone" resultType="User">
         select *
         from User
-        where phone =#{phone}
+        where phone =#{phone};
     </select>
     <select id="selectUserByEmail" resultType="User">
-        select * from USER where email = #{email}
+        select * from USER where email = #{email};
     </select>
     <select id="selectUserByUid" resultType="User">
-        select * from USER where s_id = #{s_id}
+        select * from USER where s_id = #{s_id};
     </select>
     <update id="changPassword">
-        update `USER`  set `password` = #{password} where `s_id`=#{uid}
+        update `USER`  set `password` = #{password} where `s_id`=#{uid};
     </update>
     <update id="updateUserMessage" parameterType="User">
         update user set username=#{username} , regionOP=#{regionOP}, birthday=#{birthday} ,
         phone=#{phone}, email=#{email} ,hometown1=#{hometown1},hometown2=#{hometown2},hometown3=#{hometown3},
         livetown1=#{livetown1},livetown2=#{livetown2},livetown3=#{livetown3},
-        regionOP=#{regionOP} , birthOP=#{birthOP} where s_id=#{s_id}
+        regionOP=#{regionOP} , birthOP=#{birthOP} where s_id=#{s_id};
     </update>
     <insert id="registerUserByEmail" parameterType="User">
-        insert into User(email, password) values(#{email}, #{password})
+        insert into User(email, password) values(#{email}, #{password});
     </insert>
     <insert id="registerUserByPhone" parameterType="User">
-        insert into User(phone, password) values(#{phone}, #{password})
+        insert into User(phone, password) values(#{phone}, #{password});
     </insert>
 </mapper>
