@@ -46,11 +46,12 @@ public class movieMain {
     public Map<String, Object> message_get(@RequestBody int movie)
     {
         Map<String ,Object> remap=new HashMap<>();
+        System.out.println("开始获取电影info"+movie);
         Movie m = movieService.findMovieById(movie);
         {
             remap.put("message","success");
-            remap.put("mid", m.getMid());
             remap.put("src", m.getSrc());
+            remap.put("mid",m.getMid());
             remap.put("name", m.getName());
             remap.put("actors", m.getActors());
             remap.put("directors", m.getDirectors());

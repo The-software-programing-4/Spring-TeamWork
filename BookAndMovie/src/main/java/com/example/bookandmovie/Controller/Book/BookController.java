@@ -26,16 +26,18 @@ public class BookController {
     //
 
     @PostMapping("/api/book/message_get")
-    public Map<String, Object> message_get(@RequestBody int bookname){//按照bookname来搜索
+    public Map<String, Object> message_get(@RequestBody int bookid){//按照bookid来搜索
         Map<String, Object> map = new HashMap<>();
         try{
-            Book book1 = bookService.selectBookByBook_id(bookname);
+            Book book1 = bookService.selectBookByBook_id(bookid);
             if(book1 == null){
                 map.put("success", false);
                 map.put("message", "未找到该图书！");
             }
             else{
                 map.put("book_id", book1.getBook_id());
+                map.put("src",book1.getSrc());
+                map.put("bookname",book1.getBookname());
                 map.put("author", book1.getAuthor());
                 map.put("binding", book1.getBinding());
                 map.put("brief_introduction", book1.getBrief_introduction());
@@ -120,6 +122,7 @@ public class BookController {
         System.out.println(books.toString());
         for(Book book:books){
             Map<String, Object> map_temp = new HashMap<>();
+            map_temp.put("book_id",book.getBook_id());
             map_temp.put("name", book.getBookname());
             map_temp.put("src", book.getSrc());
             map_temp.put("author", book.getAuthor());
