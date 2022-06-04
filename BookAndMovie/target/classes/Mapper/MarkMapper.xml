@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bookandmovie.Dao.MarkDao">
     <insert id="addMark" parameterType="Mark">
-        insert into `marks`() values(#{id},#{type},#{target},#{uid},
+        insert into `marks`() values(#{type},#{target},#{uid},
             #{content}, #{score},#{day},#{thumb},#{reply})   ;
     </insert>
     <select id="getMark" resultType="Mark">

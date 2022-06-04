@@ -52,7 +52,7 @@ public class BookController {
                 map.put("promoting", book1.getPromoting());
                 map.put("publish_date", book1.getPublish_date());
                 map.put("translator", book1.getTranslator());
-
+                map.put("score", book1.getScore());
                 map.put("success", true);
                 map.put("message", "已找到该图书！");
             }

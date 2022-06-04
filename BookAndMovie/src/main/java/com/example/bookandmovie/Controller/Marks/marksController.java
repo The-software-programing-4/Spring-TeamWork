@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -27,9 +28,11 @@ public class marksController {
     private MovieService movieService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private HttpServletRequest request;
     @PostMapping("/api/marks/addmark")
     public String addMark(@RequestBody Map<String, Object> map) {
-        int id = (int) map.get("id");
+        //int id = (int) map.get("id");
         int type = (int) map.get("type");
         int target = (int) map.get("target");
         int uid = (int) map.get("uid");
@@ -45,7 +48,7 @@ public class marksController {
 
         int thumb = (int) map.get("thumb");
         int reply = (int) map.get("reply");
-        Mark mark = new Mark(id, type, target, uid, content, score, day, thumb, reply);
+        Mark mark = new Mark( type, target, uid, content, score, day, thumb, reply);
         try {
             markService.addMark(mark);
             markService.replyadd(target);
@@ -57,15 +60,24 @@ public class marksController {
     }
 
     @PostMapping("/api/marks/getmark")
-    public Map<String, Object> getMark(HttpSession session,@RequestBody Map<String, Object> map) {
-        int type = (int) map.get("type");
-        int target = (int) map.get("target");
-        int uid= (int)session.getAttribute("uid");
+    public Map<String, Object> getMark(@RequestBody Map<String, Integer> map) {
+        int type=0;
+        int target=0;
+        try{
+            type = map.get("type") ;
+            target =  map.get("target");
+        }catch (Exception e){System.out.println("To int error");}
+
+        HttpSession session=request.getSession();
+        int uid=-1;
+        try{uid= (int)session.getAttribute("uid");}
+        catch (Exception e) { uid=-1;}
         List<Mark> marks ;
         marks = markService.getMark(type, target);
         Map<String, Object> remap = new HashMap<>();
         int count = marks.size();
         List<Map> arr = new ArrayList<>();
+        System.out.println("start marks"+type+" "+target);
         for (Mark e : marks) {
             Map<String, Object> map_temp = new HashMap<>();
             map_temp.put("id", e.getId());
@@ -79,9 +91,16 @@ public class marksController {
             map_temp.put("day", e.getDay());
             map_temp.put("thumb", e.getThumb());
             map_temp.put("reply", e.getReply());
-            Mark t=markService.isthumb(uid,e.getId());
-            if(t==null) map_temp.put("isthumb","点赞");
-            else map_temp.put("isthumb","已点赞");
+            if(uid!=-1) {
+                User user1=userService.selectUserByUid(uid);
+                if(user1!=null) {
+                    map_temp.put("username", user1.getUsername());
+                    map_temp.put("src",user1.getSrc());
+                }
+                Mark t = markService.isthumb(uid, e.getId());
+                if (t == null) map_temp.put("isthumb", "点赞");
+                else map_temp.put("isthumb", "已点赞");
+            }
             arr.add(map_temp);
         }
         remap.put("marks", arr);
