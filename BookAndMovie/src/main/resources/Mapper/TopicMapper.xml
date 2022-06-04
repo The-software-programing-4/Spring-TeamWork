@@ -10,4 +10,9 @@
     <select id="findTopic" parameterType="int" resultType="Topic">
         select * from topic where tid = #{tid};
     </select>
+    <select id="listTopic" resultType="Topic">
+        select *
+        from topic
+        order by tid asc
+    </select>
 </mapper>

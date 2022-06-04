@@ -6,6 +6,8 @@ import com.example.bookandmovie.Service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TopicServiceImpl implements TopicService {
     @Autowired
@@ -14,4 +16,6 @@ public class TopicServiceImpl implements TopicService {
     public void addTopic(Topic topic){topicDao.addTopic(topic);}
     @Override
     public Topic findTopic(int tid){return topicDao.findTopic(tid);}
+    @Override
+    public List<Topic> listTopic(){return topicDao.listTopic();}
 }

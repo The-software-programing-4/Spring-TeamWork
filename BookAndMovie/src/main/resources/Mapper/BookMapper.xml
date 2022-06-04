@@ -24,6 +24,5 @@
         select *
         from Book
         order by score DESC
-        LIMIT 10;
     </select>
 </mapper>
