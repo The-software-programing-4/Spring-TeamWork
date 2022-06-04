@@ -19,7 +19,16 @@ public class Topic {
     private String introduction;//简介
 
     //接下来展示所属的帖子
-    private ArrayList<Integer> post_arr = new ArrayList<>();//储存所有属于该话题的帖子ID
+    //private ArrayList<Integer> post_arr = new ArrayList<>();//储存所有属于该话题的帖子ID 这个不需要在Java类中进行操作
+    //使用关系数据库为其创建一份新的表 关系对应为 Topic.ID---Post.ID
+
+    public Topic(){};
+    public Topic(int tid, int focus, int num, String introduction){
+        this.tid = tid;
+        this.focus= focus;
+        this.num = num;
+        this.introduction = introduction;
+    }
 
     public Integer getTid() {
         return tid;
@@ -43,14 +52,6 @@ public class Topic {
 
     public void setIntroduction(String introduction) {
         this.introduction = introduction;
-    }
-
-    public ArrayList<Integer> getPost_arr() {
-        return post_arr;
-    }
-
-    public void setPost_arr(ArrayList<Integer> post_arr) {
-        this.post_arr = post_arr;
     }
 
     public Integer getNum() {
