@@ -2,22 +2,21 @@ package com.example.bookandmovie.Controller.Post;
 
 import com.example.bookandmovie.Entity.Post;
 import com.example.bookandmovie.Service.PostService;
+import org.hibernate.loader.collection.OneToManyJoinWalker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 public class PostController {
     @Autowired
     private PostService postService;
 
-    @PostMapping("/api/post/findPost")
+    @PostMapping("/api/post/message_get")
     public Map<String, Object> findPost(@RequestBody int pid){
         Map<String, Object> map = new HashMap<>();
         try{
@@ -45,7 +44,7 @@ public class PostController {
         return map;
     }
 
-    @PostMapping("/api/post/addPost")
+    @PostMapping("/api/post/message_set")
     public Map<String, Object> addPost(@RequestBody Map<Object, Object> map){
         Map<String, Object> remap = new HashMap<>();
         Date date = new Date();
@@ -64,6 +63,30 @@ public class PostController {
         Post post = new Post(pid, username, content, thumbs, response, transmit, date, length);
         postService.addPost(post);
         remap.put("message", "success");
+        return remap;
+    }
+
+    @PostMapping("/api/post/pid2src")
+    public Map<String, Object> pid2src(@RequestBody int pid){
+        int i;
+        int len = postService.srcLength(pid);
+        //获取到了src的数量
+
+        List<String> srcs = postService.listSrc(pid);
+        //获取到了所有src的值
+        List<Map> arr = new ArrayList<>();
+        Map<String, Object> remap = new HashMap<>();
+
+        Map<String, Object> map_len = new HashMap<>();
+        map_len.put("len", len);
+        arr.add(map_len);//将len存入json数据中
+
+        for(i=0;i<len;i++){
+            Map<String, Object> map_temp = new HashMap<>();
+            map_temp.put("src", srcs.get(i));
+            arr.add(map_temp);
+        }
+        remap.put("message", arr);
         return remap;
     }
 }

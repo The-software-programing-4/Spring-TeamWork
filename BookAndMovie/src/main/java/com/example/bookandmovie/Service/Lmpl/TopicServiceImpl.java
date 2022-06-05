@@ -18,4 +18,8 @@ public class TopicServiceImpl implements TopicService {
     public Topic findTopic(int tid){return topicDao.findTopic(tid);}
     @Override
     public List<Topic> listTopic(){return topicDao.listTopic();}
+    @Override
+    public List<Integer> listPid(int tid){return topicDao.listPid(tid);}
+    @Override
+    public int pidLength(int tid){return topicDao.pidLength(tid);}
 }

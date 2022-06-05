@@ -13,6 +13,12 @@
     <select id="listTopic" resultType="Topic">
         select *
         from topic
-        order by tid asc
+        order by tid asc;
+    </select>
+    <select id="listPid" resultType="Interger">
+        select *
+        from tid_pid
+        where tid = #{tid}
+        order by tid asc;
     </select>
 </mapper>

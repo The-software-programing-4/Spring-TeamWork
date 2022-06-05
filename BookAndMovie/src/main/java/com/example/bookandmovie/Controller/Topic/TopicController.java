@@ -90,4 +90,28 @@ public class TopicController {
         remap.put("messages", arr);
         return remap;
     }
+
+    @PostMapping("/api/topic/tid2pid")
+    public Map<String, Object> tid2pid(@RequestBody Integer tid){
+        int len = topicService.pidLength(tid);
+        int i;
+        //获取到了pid的数量
+
+        List<Integer> pids = topicService.listPid(tid);
+        Map<String, Object> remap = new HashMap<>();
+        List<Map> arr = new ArrayList<>();
+        //获取到了pid的所有值 pids数组
+
+        Map<String, Object> map_len = new HashMap<>();
+        map_len.put("len", len);
+        arr.add(map_len);
+        //将len存入json数据中
+        for(i=0;i<len;i++){
+            Map<String, Object> map_temp = new HashMap<>();
+            map_temp.put("pid", pids.get(i));
+            arr.add(map_temp);
+        }
+        remap.put("message", arr);
+        return remap;
+    }
 }
