@@ -27,13 +27,12 @@ public class PostController {
                 map.put("message", "未找到该帖子！");
             }else{
                 map.put("username", post1.getUsername());
-                map.put("src", post1.getSrc());//      这个地方还是不太明白前端的需求
                 map.put("length", post1.getLength());//有几张图片
                 map.put("date", post1.getDate());
                 map.put("content", post1.getContent());
                 map.put("thumbs", post1.getThumbs());
                 map.put("response", post1.getResponse());//表示回应的数量 并不是具体的回应。。。 千万别误会了
-                map.put("transimit", post1.getTransmit());//转发数
+                map.put("transmit", post1.getTransmit());//转发数
 
                 map.put("success", true);
                 map.put("message", "已找到该帖子！");
@@ -51,7 +50,6 @@ public class PostController {
         Map<String, Object> remap = new HashMap<>();
         Date date = new Date();
         int pid = (int) map.get("mid");
-        String src = (String) map.get("src");
         String username = (String) map.get("username");
         String content = (String) map.get("content");
         Integer thumbs = (Integer) map.get("thumbs");
@@ -63,7 +61,7 @@ public class PostController {
         }catch (Exception e){
             System.out.println("date wrong in post");
         }
-        Post post = new Post(pid, src, username, content, thumbs, response, transmit, date, length);
+        Post post = new Post(pid, username, content, thumbs, response, transmit, date, length);
         postService.addPost(post);
         remap.put("message", "success");
         return remap;
