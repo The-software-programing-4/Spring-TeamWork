@@ -32,6 +32,7 @@ com/example/bookandmovie/Dao/UserDao.class
 com/example/bookandmovie/Service/Lmpl/PostServiceImpl.class
 com/example/bookandmovie/Service/UserService.class
 com/example/bookandmovie/Service/Lmpl/BookServiceImpl.class
+com/example/bookandmovie/Controller/Group/GroupController.class
 com/example/bookandmovie/Controller/User/changeMessage.class
 com/example/bookandmovie/Service/Lmpl/TopicServiceImpl.class
 com/example/bookandmovie/myConfig/CorsConfig.class

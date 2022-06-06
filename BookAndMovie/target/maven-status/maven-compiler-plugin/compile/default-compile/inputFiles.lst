@@ -22,6 +22,7 @@
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Controller/Post/PostController.java
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Dao/MarkDao.java
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Entity/User.java
+/Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Controller/Group/GroupController.java
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Entity/Movie.java
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/BookAndMovieApplication.java
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Controller/movie/movieMain.java
