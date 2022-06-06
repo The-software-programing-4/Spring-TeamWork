@@ -1,7 +1,9 @@
 package com.example.bookandmovie.Controller.Post;
 
 import com.example.bookandmovie.Entity.Post;
+import com.example.bookandmovie.Entity.User;
 import com.example.bookandmovie.Service.PostService;
+import com.example.bookandmovie.Service.UserService;
 import org.hibernate.loader.collection.OneToManyJoinWalker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +17,8 @@ import java.util.*;
 public class PostController {
     @Autowired
     private PostService postService;
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/api/post/message_get")
     public Map<String, Object> findPost(@RequestBody int pid){
@@ -85,6 +89,30 @@ public class PostController {
             Map<String, Object> map_temp = new HashMap<>();
             map_temp.put("src", srcs.get(i));
             arr.add(map_temp);
+        }
+        remap.put("message", arr);
+        return remap;
+    }
+
+    @PostMapping("/api/post/userPost")
+    public Map<String, Object> userPost(@RequestBody int uid){
+        Map<String, Object> remap = new HashMap<>();
+        List<Map> arr = new ArrayList<>();
+
+        User user = userService.selectUserByUid(uid);
+        String username = user.getUsername();
+
+        List<Post> postList = postService.userPost(username);
+        for(Post post : postList){
+            Map<String, Object> temp = new HashMap<>();
+            temp.put("id", post.getPid());
+            temp.put("username", post.getUsername());
+            temp.put("content", post.getContent());
+            temp.put("thumb", post.getThumbs());
+            temp.put("reply", post.getResponse());
+            temp.put("date", post.getDate());
+            temp.put("imgList", postService.listSrc(post.getPid()));//获取图片属性
+            arr.add(temp);
         }
         remap.put("message", arr);
         return remap;

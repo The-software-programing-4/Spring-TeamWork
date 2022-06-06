@@ -20,4 +20,6 @@ public class PostServiceImpl implements PostService {
     public int srcLength(int pid){return postDao.srcLength(pid);};
     @Override
     public List<String> listSrc(int pid){return postDao.listSrc(pid);}
+    @Override
+    public List<Post> userPost(String username){return postDao.userPost(username);}
 }

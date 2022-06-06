@@ -16,4 +16,7 @@
     <select id="listSrc" resultType="String">
         select src from pid_src where pid = #{pid};
     </select>
+    <select id="userPost" resultType="Post">
+        select * from post where username = #{username};
+    </select>
 </mapper>
