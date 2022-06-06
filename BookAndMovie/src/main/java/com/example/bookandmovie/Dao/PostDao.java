@@ -11,4 +11,5 @@ public interface PostDao {
     public Post findPost(int pid);
     public int srcLength(int pid);
     public List<String> listSrc(int pid);
+    public List<Post> userPost(String username);
 }
