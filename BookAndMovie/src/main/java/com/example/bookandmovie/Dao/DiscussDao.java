@@ -16,4 +16,8 @@ public interface DiscussDao {
     public Groupt findGroupByGid(int gid);
     public List<Groupt> findGroupUidIn(int uid);
     public List<User> findMemberByGid(int gid);
+    public User findIfUserInGroup(int uid,int gid);
+    public  List<Groupt> findGroupAll();
+    public void addIntoGroup(int uid,int gid,int role);
+    public void dropFromGroup(int uid,int gid);
 }

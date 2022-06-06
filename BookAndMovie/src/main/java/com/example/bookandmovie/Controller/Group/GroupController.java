@@ -1,5 +1,6 @@
 package com.example.bookandmovie.Controller.Group;
 
+import com.example.bookandmovie.Controller.EditDistance;
 import com.example.bookandmovie.Entity.Discuss;
 import com.example.bookandmovie.Entity.Groupt;
 import com.example.bookandmovie.Entity.User;
@@ -89,10 +90,10 @@ public class GroupController {
         String content = (String) remap.get("content");
         String title = (String) remap.get("title");
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date time = new Date();
+        Date time ;
+        String d=(String)remap.get("time"); System.out.println(d);
         try {
-            time = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss").parse(sdf.format(time));
+             time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse((String)remap.get("time"));
         } catch (Exception e) {
             map.put("message", "date wrong");
             return map;
@@ -111,6 +112,9 @@ public class GroupController {
         Discuss discuss = discussService.getDiscussById(id);
         map.put("id", discuss.getId());
         map.put("uid", discuss.getUid());
+        User user=userService.selectUserByUid(discuss.getUid());
+        map.put("name",user.getUsername());
+        map.put("src",user.getSrc());
         map.put("gid", discuss.getGid());
         map.put("content", discuss.getContent());
         map.put("title", discuss.getTitle());
@@ -130,6 +134,7 @@ public class GroupController {
         for (Discuss e : disArr) {
             Map<String, Object> temp = new HashMap<>();
             temp.put("id", e.getId());
+            temp.put("gid",e.getGid());
             temp.put("name", e.getTitle());
             temp.put("respose", e.getRespose());
             Groupt group = discussService.findGroupByGid(e.getGid());
@@ -148,6 +153,24 @@ public class GroupController {
         HttpSession session = request.getSession();
         int uid = (int) session.getAttribute("uid");
         List<Groupt> grpArr = discussService.findGroupUidIn(uid);
+        List<Map> arr = new ArrayList<>();
+        for (Groupt e : grpArr) {
+            Map<String, Object> temp = new HashMap<>();
+            temp.put("gid", e.getGid());
+            temp.put("src", e.getSrc());
+            temp.put("number", e.getNumber());
+            temp.put("name", e.getName());
+            arr.add(temp);
+        }
+        map.put("listGroup", arr);
+        map.put("count", arr.size());
+        return map;
+    }
+    @PostMapping("/api/group/listgroupall")
+    public Map<String, Object> listGroupall() {
+        Map<String, Object> map = new HashMap<>();
+        HttpSession session = request.getSession();
+        List<Groupt> grpArr = discussService.findGroupAll();
         List<Map> arr = new ArrayList<>();
         for (Groupt e : grpArr) {
             Map<String, Object> temp = new HashMap<>();
@@ -184,7 +207,14 @@ public class GroupController {
         Map<String, Object> map = new HashMap<>();
         int gid = (int) remap.get("gid");
         Groupt group = discussService.findGroupByGid(gid);
+
+        HttpSession session= request.getSession();
+        int uid=(int) session.getAttribute("uid");
+        User user0=discussService.findIfUserInGroup(uid,group.getGid());
         Map<String, Object> tmap = new HashMap<>();
+        if(user0==null)
+            tmap.put("join",0);
+        else tmap.put("join",1);
         tmap.put("gid", group.getGid());
         tmap.put("uid", group.getLeader());
         tmap.put("name", group.getName());
@@ -209,9 +239,11 @@ public class GroupController {
         List<Map> arr = new ArrayList<>();
         for (Discuss e : disArr) {
             Map<String, Object> temp = new HashMap<>();
-            temp.put("gid", e.getGid());
+            temp.put("id", e.getId());
             User user = userService.selectUserByUid(e.getUid());
-            temp.put("author", user.getUsername());
+            temp.put("leader", user.getUsername());
+            temp.put("name",e.getTitle());
+            temp.put("time",e.getTime());
             temp.put("respose", e.getRespose());
             temp.put("thumb", e.getThumb());
             arr.add(temp);
@@ -224,8 +256,52 @@ public class GroupController {
     @PostMapping("/api/group/groupsearch")
     public Map<String, Object> searchGroup(@RequestBody Map<Object, Object> remap) {
 
-        Map<String, Object> map = new HashMap<>();
         String text = (String) remap.get("searchtext");
+
+        Map<String, Object> map = new HashMap<>();
+
+        List<Groupt> grpArr = discussService.findGroupAll();
+        EditDistance editDistance = new EditDistance();
+        List<Map> arr = new ArrayList<>();
+        for (Groupt e : grpArr) {
+            if (editDistance.solve(e.getName(), text) < e.getName().length()) {
+                Map<String, Object> temp = new HashMap<>();
+                temp.put("gid", e.getGid());
+                temp.put("src", e.getSrc());
+                temp.put("number", e.getNumber());
+                temp.put("response", e.getResponse());
+                temp.put("introduction", e.getIntroduction());
+                User user = userService.selectUserByUid(e.getLeader());
+                temp.put("leader", user.getUsername());
+                temp.put("name", e.getName());
+                temp.put("time", e.getTime());
+                arr.add(temp);
+            }
+        }
+        map.put("listGroup", arr);
+        map.put("count", arr.size());
+        return map;
+    }
+    @PostMapping("/api/group/addmember")
+    public Map<String, Object> add(@RequestBody Map<Object, Object> remap) {
+        Map<String, Object> map = new HashMap<>();
+        HttpSession session= request.getSession();
+        int uid=(int) session.getAttribute("uid");
+        int gid=(int) remap.get("gid");
+        int role=(int) remap.get("role");
+        discussService.addIntoGroup(uid,gid,role);
+        System.out.println("addOK");
+        map.put("message","addSuccess");
+        return map;
+    }
+    @PostMapping("/api/group/dropmember")
+    public Map<String, Object> drop(@RequestBody Map<Object, Object> remap) {
+        Map<String, Object> map = new HashMap<>();
+        HttpSession session= request.getSession();
+        int uid=(int) session.getAttribute("uid");
+        int gid=(int) remap.get("gid");
+        discussService.dropFromGroup(uid,gid);
+        map.put("message","dropSuccess");
         return map;
     }
 }

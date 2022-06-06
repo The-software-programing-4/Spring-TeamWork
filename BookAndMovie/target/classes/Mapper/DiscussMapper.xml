@@ -19,6 +19,9 @@
     <select id="findGroupByGid" resultType="Groupt">
         select * from groupt where gid=#{gid}; 
     </select>
+    <select id="findGroupAll" resultType="Groupt">
+        select * from groupt;
+    </select>
     <select id="findGroupUidIn" resultType="Groupt">
         SELECT * FROM groupt
         WHERE gid in(
@@ -29,4 +32,16 @@
         WHERE s_id in(
             SELECT uid FROM member WHERE gid=#{gid});
     </select>
+    <select id="findIfUserInGroup" resultType="User">
+        select * from user
+        where s_id in(
+            select uid from member where uid=#{uid} and gid=#{gid}
+            )
+    </select>
+    <insert id="addIntoGroup">
+        insert into member(uid,gid,role) values(#{uid},#{gid},#{role});
+    </insert>
+    <delete id="dropFromGroup">
+        delete from member where uid=#{uid} and gid=#{gid};
+    </delete>
 </mapper>

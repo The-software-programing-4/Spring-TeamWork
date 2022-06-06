@@ -20,5 +20,9 @@ public class DiscussServiceLmp implements DiscussService {
     public List<Discuss> listDiscussG(int gid){return discussDao.listDiscussG(gid);};
     public Groupt findGroupByGid(int gid){return discussDao.findGroupByGid(gid);};
     public List<Groupt> findGroupUidIn(int uid){return discussDao.findGroupUidIn(uid);};
-    public List<User> findMemberByGid(int gid){return discussDao.findMemberByGid(gid);};
+    public List<User> findMemberByGid(int gid){return discussDao.findMemberByGid(gid);}
+    public User findIfUserInGroup(int uid,int gid){return discussDao.findIfUserInGroup(uid,gid);};
+    public  List<Groupt> findGroupAll(){return discussDao.findGroupAll();};
+    public void addIntoGroup(int uid,int gid,int role){discussDao.addIntoGroup(uid,gid,role);};
+    public void dropFromGroup(int uid,int gid){discussDao.dropFromGroup(uid,gid);};
 }
