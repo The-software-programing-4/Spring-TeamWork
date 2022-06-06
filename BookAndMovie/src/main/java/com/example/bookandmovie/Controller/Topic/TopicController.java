@@ -1,7 +1,9 @@
 package com.example.bookandmovie.Controller.Topic;
 
 import com.example.bookandmovie.Controller.EditDistance;
+import com.example.bookandmovie.Entity.Post;
 import com.example.bookandmovie.Entity.Topic;
+import com.example.bookandmovie.Service.PostService;
 import com.example.bookandmovie.Service.TopicService;
 import org.apache.logging.log4j.spi.ObjectThreadContextMap;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,8 @@ import java.util.Map;
 public class TopicController {
     @Autowired
     private TopicService topicService;
+    @Autowired
+    private PostService postService;
     @PostMapping("/api/topic/message_set")
     public Map<String, Object> message_set(@RequestBody Map<Object, Object> map){
         Map<String, Object> remap = new HashMap<>();
@@ -36,14 +40,32 @@ public class TopicController {
     @PostMapping("/api/topic/message_get")
     public Map<String, Object> message_get(@RequestBody int tid){
         Map<String, Object> remap = new HashMap<>();
+        Map<String, Object> temp1 = new HashMap<>();
+        List<Map> arr = new ArrayList<>();
         Topic topic = topicService.findTopic(tid);
         {
-            remap.put("message", "success");
-            remap.put("tid", topic.getTid());
-            remap.put("focus", topic.getFocus());
-            remap.put("num", topic.getNum());
-            remap.put("introduction", topic.getIntroduction());
+            temp1.put("id", topic.getTid());
+            temp1.put("focus", topic.getFocus());
+            temp1.put("num", topic.getNum());
+            temp1.put("introduction", topic.getIntroduction());
+        }//返回该话题相关信息
+        remap.put("topic", temp1);
+
+        List<Integer> list = topicService.listPid(tid);
+        for(Integer integer : list){
+            Post post = postService.findPost(integer);//找到该integer对应的post
+            Map<String, Object> temp2 = new HashMap<>();
+            temp2.put("id", post.getPid());
+            temp2.put("username", post.getUsername());
+            temp2.put("content", post.getContent());
+            temp2.put("thumb", post.getThumbs());
+            temp2.put("reply", post.getResponse());
+            temp2.put("date", post.getDate());
+            //以上是获取了post的基本属性
+            temp2.put("imgList", postService.listSrc(post.getPid()));//获取图片属性
+            arr.add(temp2);
         }
+        remap.put("posts", arr);
         return remap;
     }
 
