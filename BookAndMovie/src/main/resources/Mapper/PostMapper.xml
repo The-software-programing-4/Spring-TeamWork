@@ -13,7 +13,7 @@
     <select id="srcLength" resultType="int">
         select count(*) from pid_src where pid = #{pid};
     </select>
-    <select id="listSrc" resultType="int">
+    <select id="listSrc" resultType="String">
         select src from pid_src where pid = #{pid};
     </select>
 </mapper>
