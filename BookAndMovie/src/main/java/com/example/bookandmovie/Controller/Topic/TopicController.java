@@ -106,9 +106,9 @@ public class TopicController {
         map_len.put("len", len);
         arr.add(map_len);
         //将len存入json数据中
-        for(i=0;i<len;i++){
+        for(Integer integer : pids){
             Map<String, Object> map_temp = new HashMap<>();
-            map_temp.put("pid", pids.get(i));
+            map_temp.put("pid", integer);
             arr.add(map_temp);
         }
         remap.put("message", arr);

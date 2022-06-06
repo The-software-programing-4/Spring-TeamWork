@@ -16,7 +16,7 @@
         order by tid asc;
     </select>
     <select id="listPid" resultType="Integer">
-        select *
+        select pid
         from tid_pid
         where tid = #{tid}
         order by tid asc;
