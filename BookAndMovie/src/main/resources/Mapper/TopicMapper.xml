@@ -13,6 +13,17 @@
     <select id="listTopic" resultType="Topic">
         select *
         from topic
-        order by tid asc
+        order by tid asc;
+    </select>
+    <select id="listPid" resultType="Integer">
+        select pid
+        from tid_pid
+        where tid = #{tid}
+        order by tid asc;
+    </select>
+    <select id="pidLength" resultType="int">
+        select count(*)
+        from tid_pid
+        where tid = #{tid}
     </select>
 </mapper>
