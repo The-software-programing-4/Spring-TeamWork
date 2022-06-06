@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.bookandmovie.Dao.DiscussDao">
+    <insert id="addDiscuss" parameterType="Discuss">
+        insert into discuss(uid,gid,content,title,thumb,respose,time)
+    values (#{uid},#{gid},#{content},#{title},#{thumb},#{respose},#{time});
+    </insert>
+    <select id="getDiscussById" resultType="Discuss">
+        select * from discuss where id=#{id};
+    </select>
+    <select id="listDiscussU" resultType="Discuss">
+        select * from discuss where uid=#{uid};
+    </select>
+    <select id="listDiscussG" resultType="Discuss">
+        select * from discuss where gid=#{gid};
+    </select>
+    <select id="findGroupByGid" resultType="Groupt">
+        select * from groupt where gid=#{gid}; 
+    </select>
+    <select id="findGroupUidIn" resultType="Groupt">
+        SELECT * FROM groupt
+        WHERE gid in(
+            SELECT gid FROM member WHERE uid=#{uid});
+    </select>
+    <select id="findMemberByGid" resultType="User">
+        SELECT * FROM user
+        WHERE s_id in(
+            SELECT uid FROM member WHERE gid=#{gid});
+    </select>
+</mapper>
