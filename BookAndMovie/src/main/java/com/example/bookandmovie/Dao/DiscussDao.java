@@ -1,7 +1,8 @@
 package com.example.bookandmovie.Dao;
 
 import com.example.bookandmovie.Entity.Discuss;
-import com.example.bookandmovie.Entity.Group;
+import com.example.bookandmovie.Entity.Groupt;
+import com.example.bookandmovie.Entity.User;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -10,6 +11,9 @@ import java.util.List;
 public interface DiscussDao {
     public void addDiscuss(Discuss discuss);
     public Discuss getDiscussById(int id);
-    public List<Discuss> listDiscuss(int uid);
-    public List<Group> listGroup(int uid);
+    public List<Discuss> listDiscussU(int uid);
+    public List<Discuss> listDiscussG(int gid);
+    public Groupt findGroupByGid(int gid);
+    public List<Groupt> findGroupUidIn(int uid);
+    public List<User> findMemberByGid(int gid);
 }

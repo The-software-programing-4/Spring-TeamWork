@@ -1,15 +1,13 @@
 package com.example.bookandmovie.Controller.Group;
 
-import com.example.bookandmovie.Dao.UserDao;
 import com.example.bookandmovie.Entity.Discuss;
-import com.example.bookandmovie.Entity.Group;
+import com.example.bookandmovie.Entity.Groupt;
 import com.example.bookandmovie.Entity.User;
 import com.example.bookandmovie.Service.DiscussService;
 import com.example.bookandmovie.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -134,7 +132,7 @@ public class GroupController {
             temp.put("id", e.getId());
             temp.put("name", e.getTitle());
             temp.put("respose", e.getRespose());
-            Group group = discussService.findGroupByGid(e.getGid());
+            Groupt group = discussService.findGroupByGid(e.getGid());
             temp.put("leader", group.getName());
             temp.put("time", e.getTime());
             arr.add(temp);
@@ -149,9 +147,9 @@ public class GroupController {
         Map<String, Object> map = new HashMap<>();
         HttpSession session = request.getSession();
         int uid = (int) session.getAttribute("uid");
-        List<Group> grpArr = discussService.findGroupUidIn(uid);
+        List<Groupt> grpArr = discussService.findGroupUidIn(uid);
         List<Map> arr = new ArrayList<>();
-        for (Group e : grpArr) {
+        for (Groupt e : grpArr) {
             Map<String, Object> temp = new HashMap<>();
             temp.put("gid", e.getGid());
             temp.put("src", e.getSrc());
@@ -185,12 +183,12 @@ public class GroupController {
     public Map<String, Object> getGroup(@RequestBody Map<Object, Object> remap) {
         Map<String, Object> map = new HashMap<>();
         int gid = (int) remap.get("gid");
-        Group group = discussService.findGroupByGid(gid);
+        Groupt group = discussService.findGroupByGid(gid);
         Map<String, Object> tmap = new HashMap<>();
         tmap.put("gid", group.getGid());
         tmap.put("uid", group.getLeader());
         tmap.put("name", group.getName());
-        tmap.put("time", group.getDate());
+        tmap.put("time", group.getTime());
         tmap.put("src", group.getSrc());
         User user = userService.selectUserByUid(group.getLeader());
         tmap.put("leader", user.getUsername());
@@ -224,11 +222,11 @@ public class GroupController {
     }
 
     @PostMapping("/api/group/groupsearch")
-    public Map<String, Object> listDiscussInGroup(@RequestBody Map<Object, Object> remap) {
-    {
-        Map<String, Object> map = new HashMap<>();
-        String text=(String) remap.get("searchtext");
+    public Map<String, Object> searchGroup(@RequestBody Map<Object, Object> remap) {
 
+        Map<String, Object> map = new HashMap<>();
+        String text = (String) remap.get("searchtext");
+        return map;
     }
 }
 
