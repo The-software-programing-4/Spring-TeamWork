@@ -1,0 +1,15 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.bookandmovie.Dao.ReportDao">
+    <insert id="addReport" parameterType="Report">
+        insert into report(my_mid, uid1, uid2, content, my_type, reason)
+        values(#{mid}, #{uid1}, #{uid2}, #{content}, #{type}, #{reason});
+    </insert>
+    <select id="listReport" resultType="Report">
+        select * from report;
+    </select>
+    <delete id="solveReport">
+        delete from report where mid = #{0};
+    </delete>
+</mapper>

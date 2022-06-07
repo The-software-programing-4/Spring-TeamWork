@@ -32,4 +32,7 @@
     <select id="isthumb" resultType="Mark">
         select * from marks where uid=#{uid} and id=#{id};
     </select>
+    <delete id="deleteMark" parameterType="int">
+        delete from marks where mid = #{mid};
+    </delete>
 </mapper>

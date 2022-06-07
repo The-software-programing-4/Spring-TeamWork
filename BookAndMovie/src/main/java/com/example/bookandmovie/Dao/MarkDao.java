@@ -16,4 +16,6 @@ public interface MarkDao {
     public int culMark_book(int target,double score);
     public int culMark_movie(int target,double score);
     public Mark isthumb(int uid,int id);
+    //添加 删除评论的方法
+    public void deleteMark(int mid);
 }
