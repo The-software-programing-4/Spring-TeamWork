@@ -15,4 +15,5 @@ public interface MarkService {
     public int culMark_book(int target,double score);
     public int culMark_movie(int target,double score);
     public Mark isthumb(int uid,int id);
+    public void deleteMark(int mid);
 }
