@@ -16,8 +16,26 @@ public class Discuss {
     private int thumb;
     private int respose;
     private Date time;
+    private int top;
+    private int star;
+
+    public int getStar() {
+        return star;
+    }
+
+    public void setStar(int star) {
+        this.star = star;
+    }
 
     public Discuss() {
+    }
+
+    public int getTop() {
+        return top;
+    }
+
+    public void setTop(int top) {
+        this.top = top;
     }
 
     public Discuss(int uid, int gid, String content, String title, int thumb, int respose, Date time) {

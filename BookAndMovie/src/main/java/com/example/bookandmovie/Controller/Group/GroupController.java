@@ -166,6 +166,25 @@ public class GroupController {
         map.put("count", arr.size());
         return map;
     }
+    @PostMapping("/api/group/listgroupmy")
+    public Map<String, Object> listGroupmy() {
+        Map<String, Object> map = new HashMap<>();
+        HttpSession session = request.getSession();
+        int uid = (int) session.getAttribute("uid");
+        List<Groupt> grpArr = discussService.findGroupUidInManage(uid);
+        List<Map> arr = new ArrayList<>();
+        for (Groupt e : grpArr) {
+            Map<String, Object> temp = new HashMap<>();
+            temp.put("gid", e.getGid());
+            temp.put("src", e.getSrc());
+            temp.put("number", e.getNumber());
+            temp.put("name", e.getName());
+            arr.add(temp);
+        }
+        map.put("listGroup", arr);
+        map.put("count", arr.size());
+        return map;
+    }
     @PostMapping("/api/group/listgroupall")
     public Map<String, Object> listGroupall() {
         Map<String, Object> map = new HashMap<>();
@@ -194,6 +213,7 @@ public class GroupController {
         for (User e : memberlist) {
             Map<String, Object> temp = new HashMap<>();
             temp.put("src", e.getSrc());
+            temp.put("uid",e.getS_id());
             temp.put("name", e.getUsername());
             arr.add(temp);
         }
@@ -201,7 +221,71 @@ public class GroupController {
         map.put("count", arr.size());
         return map;
     }
+    @PostMapping("/api/group/getmember1")
+    public Map<String, Object> getMember1(@RequestBody Map<Object, Object> remap) {
+        Map<String, Object> map = new HashMap<>();
+        int gid = (int) remap.get("gid");
+        List<User> memberlist = discussService.findMemberByGid1(gid);
+        List<Map> arr = new ArrayList<>();
+        for (User e : memberlist) {
+            Map<String, Object> temp = new HashMap<>();
+            temp.put("src", e.getSrc());
+            temp.put("uid",e.getS_id());
+            temp.put("tom",1);
+            temp.put("name", e.getUsername());
+            arr.add(temp);
+        }
+        memberlist = discussService.findMemberByGid0(gid);
+        for (User e : memberlist) {
+            Map<String, Object> temp = new HashMap<>();
+            temp.put("src", e.getSrc());
+            temp.put("uid",e.getS_id());
+            temp.put("tom",0);
+            temp.put("name", e.getUsername());
+            arr.add(temp);
+        }
 
+        map.put("memberData", arr);
+        map.put("count", arr.size());
+        return map;
+    }
+    @PostMapping("/api/group/getmember2")
+    public Map<String, Object> getMember2(@RequestBody Map<Object, Object> remap) {
+        Map<String, Object> map = new HashMap<>();
+        int gid = (int) remap.get("gid");
+        List<User> memberlist = discussService.findMemberByGid2(gid);
+        List<Map> arr = new ArrayList<>();
+        for (User e : memberlist) {
+            Map<String, Object> temp = new HashMap<>();
+            temp.put("src", e.getSrc());
+            temp.put("uid",e.getS_id());
+            temp.put("name", e.getUsername());
+            arr.add(temp);
+        }
+        map.put("memberData", arr);
+        map.put("count", arr.size());
+        return map;
+    }
+    @PostMapping("/api/group/setrole")
+    public Map<String, Object> setrole(@RequestBody Map<Object, Object> remap) {
+        Map<String, Object> map = new HashMap<>();
+        int uid=(int) remap.get("uid");
+        int gid=(int) remap.get("gid");
+        int role=(int) remap.get("role");
+        discussService.setmanage(uid,gid,role);
+        map.put("message","setok");
+        return map;
+    }
+    @PostMapping("/api/group/tomanager")
+    public Map<String, Object> tomanager(@RequestBody Map<Object, Object> remap) {
+        Map<String, Object> map = new HashMap<>();
+        int gid=(int) remap.get("gid");
+        HttpSession session=request.getSession();
+        int uid=(int) session.getAttribute("uid");
+        discussService.tomanager(uid,gid);
+        map.put("message","申请成功");
+        return map;
+    }
     @PostMapping("/api/group/getgroup")
     public Map<String, Object> getGroup(@RequestBody Map<Object, Object> remap) {
         Map<String, Object> map = new HashMap<>();
@@ -210,12 +294,20 @@ public class GroupController {
 
         HttpSession session= request.getSession();
         int uid=(int) session.getAttribute("uid");
+        List<Groupt> groupts=discussService.findGroupUidInManage(uid);
+        int ismanager=0;
+        for(Groupt e:groupts)
+        {
+            if(e.getGid()==gid)
+                ismanager=1;
+        }
         User user0=discussService.findIfUserInGroup(uid,group.getGid());
         Map<String, Object> tmap = new HashMap<>();
         if(user0==null)
             tmap.put("join",0);
         else tmap.put("join",1);
         tmap.put("gid", group.getGid());
+        tmap.put("ismanager",ismanager);
         tmap.put("uid", group.getLeader());
         tmap.put("name", group.getName());
         tmap.put("time", group.getTime());
@@ -235,18 +327,47 @@ public class GroupController {
         Map<String, Object> map = new HashMap<>();
         HttpSession session = request.getSession();
         int gid = (int) remap.get("gid");
+        int uid=(int) session.getAttribute("uid");
+        List<Groupt> groupts=discussService.findGroupUidInManage(uid);
+        int ismanager=0;
+        for(Groupt e:groupts)
+        {
+            if(e.getGid()==gid)
+                ismanager=1;
+        }
         List<Discuss> disArr = discussService.listDiscussG(gid);
         List<Map> arr = new ArrayList<>();
         for (Discuss e : disArr) {
-            Map<String, Object> temp = new HashMap<>();
-            temp.put("id", e.getId());
-            User user = userService.selectUserByUid(e.getUid());
-            temp.put("leader", user.getUsername());
-            temp.put("name",e.getTitle());
-            temp.put("time",e.getTime());
-            temp.put("respose", e.getRespose());
-            temp.put("thumb", e.getThumb());
-            arr.add(temp);
+            if(e.getTop()==1) {
+                Map<String, Object> temp = new HashMap<>();
+                temp.put("id", e.getId());
+                temp.put("ismanager",ismanager);
+                temp.put("top", e.getTop());
+                temp.put("star",e.getStar());
+                User user = userService.selectUserByUid(e.getUid());
+                temp.put("leader", user.getUsername());
+                temp.put("name", e.getTitle());
+                temp.put("time", e.getTime());
+                temp.put("respose", e.getRespose());
+                temp.put("thumb", e.getThumb());
+                arr.add(temp);
+            }
+        }
+        for (Discuss e : disArr) {
+            if(e.getTop()==0) {
+                Map<String, Object> temp = new HashMap<>();
+                temp.put("id", e.getId());
+                temp.put("top", e.getTop());
+                temp.put("ismanager",ismanager);
+                temp.put("star",e.getStar());
+                User user = userService.selectUserByUid(e.getUid());
+                temp.put("leader", user.getUsername());
+                temp.put("name", e.getTitle());
+                temp.put("time", e.getTime());
+                temp.put("respose", e.getRespose());
+                temp.put("thumb", e.getThumb());
+                arr.add(temp);
+            }
         }
         map.put("discussData", arr);
         map.put("count", arr.size());
@@ -287,6 +408,7 @@ public class GroupController {
         Map<String, Object> map = new HashMap<>();
         HttpSession session= request.getSession();
         int uid=(int) session.getAttribute("uid");
+        System.out.println("addstart"+uid);
         int gid=(int) remap.get("gid");
         int role=(int) remap.get("role");
         discussService.addIntoGroup(uid,gid,role);
@@ -302,6 +424,38 @@ public class GroupController {
         int gid=(int) remap.get("gid");
         discussService.dropFromGroup(uid,gid);
         map.put("message","dropSuccess");
+        return map;
+    }
+    @PostMapping("/api/group/totop")
+    public Map<String, Object> totop(@RequestBody Map<Object, Object> remap) {
+        Map<String, Object> map = new HashMap<>();
+        int id=(int) remap.get("id");
+        System.out.println("starttop"+id);
+        Discuss discuss=discussService.getDiscussById(id);
+        if(discuss.getTop()==0)
+        discussService.totop(id);
+        else discussService.notop(id);
+        map.put("totop/notop","success");
+        return map;
+    }
+    @PostMapping("/api/group/tostar")
+    public Map<String, Object> tostar(@RequestBody Map<Object, Object> remap) {
+        Map<String, Object> map = new HashMap<>();
+        int id=(int) remap.get("id");
+        Discuss discuss=discussService.getDiscussById(id);
+        if(discuss.getStar()==0)
+            discussService.tostar(id);
+        else
+            discussService.nostar(id);
+        map.put("tostar/nostar","success");
+        return map;
+    }
+    @PostMapping("/api/group/delet")
+    public Map<String, Object> delet(@RequestBody Map<Object, Object> remap) {
+        Map<String, Object> map = new HashMap<>();
+        int id=(int) remap.get("id");
+        discussService.delet(id);
+        map.put("delet","success");
         return map;
     }
 }

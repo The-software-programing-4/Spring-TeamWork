@@ -25,4 +25,16 @@ public class DiscussServiceLmp implements DiscussService {
     public  List<Groupt> findGroupAll(){return discussDao.findGroupAll();};
     public void addIntoGroup(int uid,int gid,int role){discussDao.addIntoGroup(uid,gid,role);};
     public void dropFromGroup(int uid,int gid){discussDao.dropFromGroup(uid,gid);};
+    public void totop(int id){discussDao.totop(id);};
+    @Override
+    public void notop(int id){discussDao.notop(id);};
+    public void delet(int id){discussDao.delet(id);};
+    public List<Groupt> findGroupUidInManage(int uid){return discussDao.findGroupUidInManage(uid);};
+    public void setmanage(int uid,int gid,int role){discussDao.setmanage(uid,gid,role);};
+    public List<User> findMemberByGid1(int gid){return discussDao.findMemberByGid1(gid);};
+    public List<User> findMemberByGid2(int gid){return discussDao.findMemberByGid2(gid);};
+    public void tostar(int id){discussDao.tostar(id);};
+    public void nostar(int id){discussDao.nostar(id);};
+    public void tomanager(int uid,int gid){discussDao.tomanager(uid,gid);};
+    public List<User> findMemberByGid0(int gid){return discussDao.findMemberByGid0(gid);};
 }
