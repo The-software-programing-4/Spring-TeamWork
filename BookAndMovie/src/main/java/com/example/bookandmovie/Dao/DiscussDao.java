@@ -31,4 +31,5 @@ public interface DiscussDao {
     public List<Groupt> findGroupUidInManage(int uid);
     public void tomanager(int uid,int gid);
     public List<User> findMemberByGid0(int gid);
+    public List<Discuss> listDiscussT(int tid);
 }

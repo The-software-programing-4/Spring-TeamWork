@@ -10,6 +10,7 @@ public interface DiscussService {
     public void addDiscuss(Discuss discuss);
     public Discuss getDiscussById(int id);
     public List<Discuss> listDiscussU(int uid);
+    public List<Discuss> listDiscussT(int tid);
     public List<Discuss> listDiscussG(int gid);
     public Groupt findGroupByGid(int gid);
     public List<Groupt> findGroupUidIn(int uid);

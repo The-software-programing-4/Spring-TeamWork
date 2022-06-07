@@ -37,4 +37,5 @@ public class DiscussServiceLmp implements DiscussService {
     public void nostar(int id){discussDao.nostar(id);};
     public void tomanager(int uid,int gid){discussDao.tomanager(uid,gid);};
     public List<User> findMemberByGid0(int gid){return discussDao.findMemberByGid0(gid);};
+    public List<Discuss> listDiscussT(int tid){return discussDao.listDiscussT(tid);};
 }

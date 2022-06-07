@@ -3,14 +3,18 @@ package com.example.bookandmovie.Controller.Topic;
 import com.example.bookandmovie.Controller.EditDistance;
 import com.example.bookandmovie.Entity.Post;
 import com.example.bookandmovie.Entity.Topic;
+import com.example.bookandmovie.Entity.User;
 import com.example.bookandmovie.Service.PostService;
 import com.example.bookandmovie.Service.TopicService;
+import com.example.bookandmovie.Service.UserService;
 import org.apache.logging.log4j.spi.ObjectThreadContextMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +26,10 @@ public class TopicController {
     private TopicService topicService;
     @Autowired
     private PostService postService;
+    @Autowired
+    private HttpServletRequest request;
+    @Autowired
+    private UserService userService;
     @PostMapping("/api/topic/message_set")
     public Map<String, Object> message_set(@RequestBody Map<Object, Object> map){
         Map<String, Object> remap = new HashMap<>();
@@ -36,20 +44,40 @@ public class TopicController {
         remap.put("message", "success");
         return remap;
     }
-
+    @PostMapping("/api/topic/concer")
+    public Map<String, Object> concer(@RequestBody Map<String, Object> remap){
+        Map<String,Object> map=new HashMap<>();
+        HttpSession session= request.getSession();
+        int uid=(int) session.getAttribute("uid");
+        int tid=(int)remap.get("tid");
+        User user=topicService.checkConcern(uid,tid);
+        if(user==null)
+        topicService.addConcern(uid,tid);
+        else topicService.dropConcern(uid,tid);
+        map.put("message","concernOK");
+        return map;
+    }
     @PostMapping("/api/topic/message_get")
-    public Map<String, Object> message_get(@RequestBody int tid){
-        Map<String, Object> remap = new HashMap<>();
+    public Map<String, Object> message_get(@RequestBody Map<String, Object> remap){
+        int tid=(int)remap.get("tid");
         Map<String, Object> temp1 = new HashMap<>();
+        Map<String,Object> map=new HashMap<>();
         List<Map> arr = new ArrayList<>();
+        HttpSession session=request.getSession();
+        int uid=(int)  session.getAttribute("uid");
         Topic topic = topicService.findTopic(tid);
         {
             temp1.put("id", topic.getTid());
             temp1.put("focus", topic.getFocus());
             temp1.put("num", topic.getNum());
+            temp1.put("title",topic.getName());
             temp1.put("introduction", topic.getIntroduction());
+            User user=topicService.checkConcern(uid,tid);
+            if(user==null)
+                temp1.put("concern",0);
+            else temp1.put("concern",1);
         }//返回该话题相关信息
-        remap.put("topic", temp1);
+        map.put("topic", temp1);
 
         List<Integer> list = topicService.listPid(tid);
         for(Integer integer : list){
@@ -63,10 +91,12 @@ public class TopicController {
             temp2.put("date", post.getDate());
             //以上是获取了post的基本属性
             temp2.put("imgList", postService.listSrc(post.getPid()));//获取图片属性
+
+
             arr.add(temp2);
         }
-        remap.put("posts", arr);
-        return remap;
+        map.put("posts", arr);
+        return map;
     }
 
     @PostMapping("/api/topic/listtopic")
@@ -79,6 +109,7 @@ public class TopicController {
             Map<String, Object> map_temp = new HashMap<>();
             map_temp.put("tid", t.getTid());
             map_temp.put("focus", t.getFocus());
+            map_temp.put("name",t.getName());
             map_temp.put("num", t.getNum());
             map_temp.put("introduction", t.getIntroduction());
             arr.add(map_temp);

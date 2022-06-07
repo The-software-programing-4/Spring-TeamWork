@@ -4,14 +4,17 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bookandmovie.Dao.DiscussDao">
     <insert id="addDiscuss" parameterType="Discuss">
-        insert into discuss(uid,gid,content,title,thumb,respose,time,top)
-    values (#{uid},#{gid},#{content},#{title},#{thumb},#{respose},#{time},0);
+        insert into discuss(uid,gid,tid,content,title,thumb,respose,time,top,star)
+    values (#{uid},#{gid},#{tid},#{content},#{title},#{thumb},#{respose},#{time},0,0);
     </insert>
     <select id="getDiscussById" resultType="Discuss">
         select * from discuss where id=#{id};
     </select>
     <select id="listDiscussU" resultType="Discuss">
         select * from discuss where uid=#{uid};
+    </select>
+    <select id="listDiscussT" resultType="Discuss">
+        select * from discuss where tid=#{tid};
     </select>
     <select id="listDiscussG" resultType="Discuss">
         select * from discuss where gid=#{gid};
