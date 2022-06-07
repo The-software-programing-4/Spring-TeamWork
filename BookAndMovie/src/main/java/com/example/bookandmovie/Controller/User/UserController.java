@@ -146,16 +146,19 @@ public class UserController {
     }
     @PostMapping("/api/user/imgUpload")
     public String updateImg( @RequestBody MultipartFile file,String username){
-        //String username = (String) request.getSession().getAttribute("username");
+        int uid;
+        try{
+        uid = (int) request.getSession().getAttribute("uid");}
+        catch (Exception e){uid=0;}
 
         String root=System.getProperty("user.dir");
         String status;
         status="_new";
         //System.out.println(root);
-        if(username==null)
+        if(uid==0)
             return "用户未登陆";
-        String path1=root+"/src/main/resources/templates/userImg/"+username+".jpg";
-        String path2=root+"/src/main/resources/templates/userImg/"+username+status+".jpg";
+        String path1=root+"/src/main/resources/templates/userImg/"+uid+".jpg";
+        String path2=root+"/src/main/resources/templates/userImg/"+uid+status+".jpg";
         File fileEx1=new File(path1);
         File fileEx2=new File(path2);
         if(fileEx1.exists())
@@ -166,7 +169,7 @@ public class UserController {
             fileEx2.delete();
             status="";
         }
-        File fileStore=new File(root+"/src/main/resources/templates/userImg",username+status+".jpg");
+        File fileStore=new File(root+"/src/main/resources/templates/userImg",uid+status+".jpg");
         try{file.transferTo(fileStore);}
         catch (Exception e){
             return "文件写入失败";
@@ -176,23 +179,23 @@ public class UserController {
     @GetMapping("api/user/getimg")
     public Map<String,Object> getImg()
     {
-        String username = (String) request.getSession().getAttribute("username");
+        int uid = (int) request.getSession().getAttribute("uid");
         Map<String,Object> map = new HashMap<>();
-        System.out.println(username);
-        if(username==null)
+        System.out.println(uid);
+        if(uid==0)
         {
-            map.put("username",username);
+            map.put("username",uid);
             map.put("message","未知错误");
             return map;
         }
-        System.out.println("开始获取图片"+username);
+        System.out.println("开始获取图片"+uid);
         String root=new String();
         try{
             root=System.getProperty("user.dir");
         }catch (Exception e){System.out.println("root wrong");}
         String status="_new";
-        String path1=root+"/src/main/resources/templates/userImg/"+username+".jpg";
-        String path2=root+"/src/main/resources/templates/userImg/"+username+status+".jpg";
+        String path1=root+"/src/main/resources/templates/userImg/"+uid+".jpg";
+        String path2=root+"/src/main/resources/templates/userImg/"+uid+status+".jpg";
         System.out.println(path1);
         System.out.println(path2);
         File file1=new File(path1);
@@ -204,12 +207,12 @@ public class UserController {
         else if(file2.exists())
             status="_new";
         else{
-            map.put("username",username);
+            map.put("username",uid);
             map.put("message","noImg");
             return map;
         }
-        map.put("username",username);
-        map.put("message","templates/userImg/"+username+status+".jpg");
+        map.put("username",uid);
+        map.put("message","templates/userImg/"+uid+status+".jpg");
         return map;
     }
 }
