@@ -10,6 +10,6 @@
         select * from report;
     </select>
     <delete id="solveReport">
-        delete from report where mid = #{0};
+        delete from report where my_mid = #{0};
     </delete>
 </mapper>
