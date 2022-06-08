@@ -63,17 +63,23 @@ public class GroupController {
     @PostMapping("/api/group/addgroup")
     public Map<String, Object> addGroup(@RequestBody Map<Object, Object> remap) {
         String name = (String) remap.get("name");
-        Date date;
+        HttpSession session=request.getSession();
+
+        Date date=new Date();
         try {
-            date = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss").parse((String) remap.get("day"));
+            date = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss").parse((String) remap.get("time"));
         } catch (Exception e) {
             System.out.println("日期转换异常");
         }
-        String src = "/templates/groupHead/";
-        int leader = (int) remap.get("leader");
+        String src = "templates/groupHead/0.png";
+        int uid= (int)session.getAttribute("uid");
         String introduction = (String) remap.get("introduction");
         String tags = (String) remap.get("tags");
-
+        Groupt groupt=new Groupt(name,date,src,uid,0,0,introduction);
+        discussService.addGroup(groupt);
+        User user=userService.selectUserByUid(uid);
+        discussService.addLeader(user);
+        discussService.addLeader2(user);
         Map<String, Object> map = new HashMap<>();
         map.put("success", true);
         map.put("message", "create group");
@@ -99,12 +105,39 @@ public class GroupController {
             return map;
         }
         Discuss discuss = new Discuss(uid, gid, content, title, 0, 0, time);
+        discuss.setTid(-1);
+        discuss.setStar(0);
         discussService.addDiscuss(discuss);
         map.put("success", true);
         map.put("message", "add success");
         return map;
     }
+    @PostMapping("/api/topic/adddiscusst")
+    public Map<String, Object> addDiscusst(@RequestBody Map<Object, Object> remap) {
+        Map<String, Object> map = new HashMap<>();
+        HttpSession session = request.getSession();
 
+        int uid = (int) session.getAttribute("uid");
+        int tid = (int) remap.get("tid");
+        String content = (String) remap.get("content");
+        String title = (String) remap.get("title");
+
+        Date time ;
+        String d=(String)remap.get("time"); System.out.println(d);
+        try {
+            time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse((String)remap.get("time"));
+        } catch (Exception e) {
+            map.put("message", "date wrong");
+            return map;
+        }
+        Discuss discuss = new Discuss(uid, -1, content, title, 0, 0, time);
+        discuss.setTid(tid);
+        discuss.setStar(0);
+        discussService.addDiscuss(discuss);
+        map.put("success", true);
+        map.put("message", "add success for t");
+        return map;
+    }
     @PostMapping("/api/group/getdiscuss")
     public Map<String, Object> getDiscuss(@RequestBody Map<Object, Object> remap) {
         Map<String, Object> map = new HashMap<>();
@@ -135,11 +168,20 @@ public class GroupController {
             Map<String, Object> temp = new HashMap<>();
             temp.put("id", e.getId());
             temp.put("gid",e.getGid());
+            int uidd=e.getUid();
+            User user=userService.selectUserByUid(uidd);
             temp.put("name", e.getTitle());
             temp.put("respose", e.getRespose());
+            temp.put("content",e.getContent());
+            try{
             Groupt group = discussService.findGroupByGid(e.getGid());
-            temp.put("leader", group.getName());
+            temp.put("leader", group.getName());}
+            catch (Exception ef){System.out.println("no group");}
+            temp.put("src",user.getSrc());
+            temp.put("thumb",e.getThumb());
+            temp.put("writer",user.getUsername());
             temp.put("time", e.getTime());
+            temp.put("isthumb","点赞");
             arr.add(temp);
         }
         map.put("listDiscuss", arr);
@@ -293,7 +335,9 @@ public class GroupController {
         Groupt group = discussService.findGroupByGid(gid);
 
         HttpSession session= request.getSession();
-        int uid=(int) session.getAttribute("uid");
+        int uid=0;
+        try{
+        uid=(int) session.getAttribute("uid");}catch (Exception e){}
         List<Groupt> groupts=discussService.findGroupUidInManage(uid);
         int ismanager=0;
         for(Groupt e:groupts)
@@ -326,15 +370,17 @@ public class GroupController {
     public Map<String, Object> listDiscussInGroup(@RequestBody Map<Object, Object> remap) {
         Map<String, Object> map = new HashMap<>();
         HttpSession session = request.getSession();
+        int ismanager=0;
         int gid = (int) remap.get("gid");
+        try{
         int uid=(int) session.getAttribute("uid");
         List<Groupt> groupts=discussService.findGroupUidInManage(uid);
-        int ismanager=0;
+
         for(Groupt e:groupts)
         {
             if(e.getGid()==gid)
                 ismanager=1;
-        }
+        }}catch (Exception b){}
         List<Discuss> disArr = discussService.listDiscussG(gid);
         List<Map> arr = new ArrayList<>();
         for (Discuss e : disArr) {
@@ -373,7 +419,35 @@ public class GroupController {
         map.put("count", arr.size());
         return map;
     }
+    @PostMapping("/api/topic/listdiscussintopic")
+    public Map<String, Object> listDiscussInTopic(@RequestBody Map<Object, Object> remap) {
+        Map<String, Object> map = new HashMap<>();
+        HttpSession session = request.getSession();
+        int tid = (int) remap.get("tid");
+        System.out.println("find discuss");
+        List<Discuss> disArr = discussService.listDiscussT(tid);
+        List<Map> arr = new ArrayList<>();
+        for (Discuss e : disArr) {
+                Map<String, Object> temp = new HashMap<>();
+                temp.put("id", e.getId());
+                temp.put("top", e.getTop());
+                temp.put("star",e.getStar());
+                User user = userService.selectUserByUid(e.getUid());
+                temp.put("writer", user.getUsername());
+                temp.put("src",user.getSrc());
+                temp.put("content",e.getContent());
 
+                temp.put("name", e.getTitle());
+                temp.put("time", e.getTime());
+                temp.put("respose", e.getRespose());
+                temp.put("thumb", e.getThumb());
+                arr.add(temp);
+        }
+
+        map.put("discussData", arr);
+        map.put("count", arr.size());
+        return map;
+    }
     @PostMapping("/api/group/groupsearch")
     public Map<String, Object> searchGroup(@RequestBody Map<Object, Object> remap) {
 

@@ -10,6 +10,7 @@ public class Discuss {
     private int id;
     private int uid;
     private int gid;
+    private int tid;
     @Lob
     private String content;
     private String title;
@@ -21,6 +22,14 @@ public class Discuss {
 
     public int getStar() {
         return star;
+    }
+
+    public int getTid() {
+        return tid;
+    }
+
+    public void setTid(int tid) {
+        this.tid = tid;
     }
 
     public void setStar(int star) {

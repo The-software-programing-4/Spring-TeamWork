@@ -32,6 +32,7 @@ public class UserController {
             }
             else{
                 User user = new User(username,password);
+                user.setSrc("templates/userImg/0.jpg");
                 userSevice.registerNewUser(user);
                 map.put("success",true);
                 map.put("message","用户注册成功!");
@@ -133,8 +134,8 @@ public class UserController {
                 map.put("success", false);
                 map.put("message", "请重新登陆");
             } else {
-                    map.put("name", username);
-                    map.put("password", user.getPassword());
+                    map.put("success", true);
+                    map.put("username", username);
                     map.put("uid",uid);
             }
         } catch (Exception e) {

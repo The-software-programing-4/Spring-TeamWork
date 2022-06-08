@@ -12,6 +12,7 @@ com/example/bookandmovie/myConfig/SessionConfig.class
 com/example/bookandmovie/Entity/Book.class
 com/example/bookandmovie/Controller/movie/movieMain.class
 com/example/bookandmovie/Entity/Mark.class
+com/example/bookandmovie/Entity/Report.class
 com/example/bookandmovie/Dao/UserDao.class
 com/example/bookandmovie/Service/Lmpl/PostServiceImpl.class
 com/example/bookandmovie/Entity/Discuss.class
@@ -21,6 +22,7 @@ com/example/bookandmovie/Controller/User/changeMessage.class
 com/example/bookandmovie/Service/Lmpl/TopicServiceImpl.class
 com/example/bookandmovie/myConfig/CorsConfig.class
 com/example/bookandmovie/Service/Lmpl/MovieServiceMpl.class
+com/example/bookandmovie/Service/Lmpl/ReportServiceImpl.class
 com/example/bookandmovie/Service/Lmpl/MarkServiceMpl.class
 com/example/bookandmovie/Controller/Book/BookController.class
 com/example/bookandmovie/Service/MovieService.class
@@ -30,13 +32,16 @@ com/example/bookandmovie/Dao/MarkDao.class
 com/example/bookandmovie/Dao/PostDao.class
 com/example/bookandmovie/Service/Lmpl/DiscussServiceLmp.class
 com/example/bookandmovie/Entity/Groupt.class
+com/example/bookandmovie/Dao/ReportDao.class
 com/example/bookandmovie/Entity/Post.class
 com/example/bookandmovie/Controller/User/UserController2.class
 com/example/bookandmovie/Controller/Marks/marksController.class
 com/example/bookandmovie/Controller/Post/PostController.class
 com/example/bookandmovie/Service/Lmpl/UserServiceLmpl.class
 com/example/bookandmovie/Service/PostService.class
+com/example/bookandmovie/Controller/Report/ReportController.class
 com/example/bookandmovie/Service/DiscussService.class
+com/example/bookandmovie/Service/ReportService.class
 com/example/bookandmovie/Entity/User.class
 com/example/bookandmovie/Service/MarkService.class
 com/example/bookandmovie/BookAndMovieApplication.class
