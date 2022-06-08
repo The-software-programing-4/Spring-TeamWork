@@ -51,8 +51,9 @@ public class ReportController {
     }
 
     @PostMapping("/api/report/solveReport")
-    public Map<String, Object> solveReport(@RequestBody int mid, int op){
+    public Map<String, Object> solveReport(@RequestBody Map<String, Integer> m){
         Map<String, Object> map = new HashMap<>();
+        int mid = m.get("mid"), op = m.get("op");
         if(op == 1){
             markService.deleteMark(mid);//举报成功就删除这条评论
         }
