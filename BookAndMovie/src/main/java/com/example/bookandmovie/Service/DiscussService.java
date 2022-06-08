@@ -33,4 +33,5 @@ public interface DiscussService {
     public void addGroup(Groupt groupt);
     public void addLeader(User user);
     public void addLeader2(User user);
+    public void addGroupPic(String src,int gid);
 }

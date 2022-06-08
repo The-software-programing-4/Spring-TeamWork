@@ -6,6 +6,9 @@
     <delete id="addLeader" parameterType="User">
         DELETE FROM `member` WHERE `uid` =#{s_id} and role=3;
     </delete>
+    <update id="addGroupPic">
+        update groupt set src=#{src} where gid=#{gid}
+    </update>
     <insert id="addLeader2" parameterType="User">
         insert into member(uid,gid,role)
         SELECT #{s_id},gid,3 from groupt WHERE leader=#{s_id};
