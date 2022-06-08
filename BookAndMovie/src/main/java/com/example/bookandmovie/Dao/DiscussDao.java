@@ -32,4 +32,7 @@ public interface DiscussDao {
     public void tomanager(int uid,int gid);
     public List<User> findMemberByGid0(int gid);
     public List<Discuss> listDiscussT(int tid);
+    public void addGroup(Groupt groupt);
+    public void addLeader(User user);
+    public void addLeader2(User user);
 }

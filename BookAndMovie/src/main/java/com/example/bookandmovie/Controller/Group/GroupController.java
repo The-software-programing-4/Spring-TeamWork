@@ -63,17 +63,23 @@ public class GroupController {
     @PostMapping("/api/group/addgroup")
     public Map<String, Object> addGroup(@RequestBody Map<Object, Object> remap) {
         String name = (String) remap.get("name");
-        Date date;
+        HttpSession session=request.getSession();
+
+        Date date=new Date();
         try {
-            date = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss").parse((String) remap.get("day"));
+            date = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss").parse((String) remap.get("time"));
         } catch (Exception e) {
             System.out.println("日期转换异常");
         }
-        String src = "/templates/groupHead/";
-        int leader = (int) remap.get("leader");
+        String src = "templates/groupHead/0.png";
+        int uid= (int)session.getAttribute("uid");
         String introduction = (String) remap.get("introduction");
         String tags = (String) remap.get("tags");
-
+        Groupt groupt=new Groupt(name,date,src,uid,0,0,introduction);
+        discussService.addGroup(groupt);
+        User user=userService.selectUserByUid(uid);
+        discussService.addLeader(user);
+        discussService.addLeader2(user);
         Map<String, Object> map = new HashMap<>();
         map.put("success", true);
         map.put("message", "create group");

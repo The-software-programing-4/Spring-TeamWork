@@ -21,6 +21,16 @@ public class Groupt {
     public Groupt() {
     }
 
+    public Groupt(String name, Date time, String src, int leader, int number, int response, String introduction) {
+        this.name = name;
+        this.time = time;
+        this.src = src;
+        this.leader = leader;
+        this.number = number;
+        this.response = response;
+        this.introduction = introduction;
+    }
+
     public int getGid() {
         return gid;
     }

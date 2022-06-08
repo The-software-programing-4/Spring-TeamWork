@@ -64,7 +64,7 @@ public class TopicController {
         Map<String,Object> map=new HashMap<>();
         List<Map> arr = new ArrayList<>();
         HttpSession session=request.getSession();
-        int uid=(int)  session.getAttribute("uid");
+
         Topic topic = topicService.findTopic(tid);
         {
             temp1.put("id", topic.getTid());
@@ -72,7 +72,10 @@ public class TopicController {
             temp1.put("num", topic.getNum());
             temp1.put("title",topic.getName());
             temp1.put("introduction", topic.getIntroduction());
-            User user=topicService.checkConcern(uid,tid);
+            User user=null;
+            try{
+            int uid=(int)  session.getAttribute("uid");
+            user=topicService.checkConcern(uid,tid);} catch (Exception f){}
             if(user==null)
                 temp1.put("concern",0);
             else temp1.put("concern",1);

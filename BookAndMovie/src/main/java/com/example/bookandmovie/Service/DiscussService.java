@@ -30,4 +30,7 @@ public interface DiscussService {
     public List<User> findMemberByGid0(int gid);
     public List<User> findMemberByGid2(int gid);
     public void tomanager(int uid,int gid);
+    public void addGroup(Groupt groupt);
+    public void addLeader(User user);
+    public void addLeader2(User user);
 }

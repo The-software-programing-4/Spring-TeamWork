@@ -3,6 +3,17 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bookandmovie.Dao.DiscussDao">
+    <delete id="addLeader" parameterType="User">
+        DELETE FROM `member` WHERE `uid` =#{s_id} and role=3;
+    </delete>
+    <insert id="addLeader2" parameterType="User">
+        insert into member(uid,gid,role)
+        SELECT #{s_id},gid,3 from groupt WHERE leader=#{s_id};
+    </insert>
+    <insert id="addGroup" parameterType="Groupt">
+        insert into groupt(name,time,src,leader,number,response,introduction)
+        values (#{name},#{time},#{src},#{leader},#{number},#{response},#{introduction})
+    </insert>
     <insert id="addDiscuss" parameterType="Discuss">
         insert into discuss(uid,gid,tid,content,title,thumb,respose,time,top,star)
     values (#{uid},#{gid},#{tid},#{content},#{title},#{thumb},#{respose},#{time},0,0);
