@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,9 +15,12 @@ import java.util.Map;
 public class logoutController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private HttpServletRequest request;
     @PostMapping("api/user/logout")
-    public Map<String, Object> logout(HttpSession session)
+    public Map<String, Object> logout()
     {
+        HttpSession session=request.getSession();
         String username = (String) session.getAttribute("username");
         Map<String,Object> map = new HashMap<>();
         try{

@@ -329,7 +329,9 @@ public class GroupController {
         Groupt group = discussService.findGroupByGid(gid);
 
         HttpSession session= request.getSession();
-        int uid=(int) session.getAttribute("uid");
+        int uid=0;
+        try{
+        uid=(int) session.getAttribute("uid");}catch (Exception e){}
         List<Groupt> groupts=discussService.findGroupUidInManage(uid);
         int ismanager=0;
         for(Groupt e:groupts)
@@ -362,15 +364,17 @@ public class GroupController {
     public Map<String, Object> listDiscussInGroup(@RequestBody Map<Object, Object> remap) {
         Map<String, Object> map = new HashMap<>();
         HttpSession session = request.getSession();
+        int ismanager=0;
         int gid = (int) remap.get("gid");
+        try{
         int uid=(int) session.getAttribute("uid");
         List<Groupt> groupts=discussService.findGroupUidInManage(uid);
-        int ismanager=0;
+
         for(Groupt e:groupts)
         {
             if(e.getGid()==gid)
                 ismanager=1;
-        }
+        }}catch (Exception b){}
         List<Discuss> disArr = discussService.listDiscussG(gid);
         List<Map> arr = new ArrayList<>();
         for (Discuss e : disArr) {
