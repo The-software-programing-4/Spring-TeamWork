@@ -7,9 +7,7 @@ import com.example.bookandmovie.Entity.User;
 import com.example.bookandmovie.Service.DiscussService;
 import com.example.bookandmovie.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -59,7 +57,47 @@ public class GroupController {
         map.put("errno", 0);
         return map;
     }
+    @PostMapping("/api/group/headimg")
+    public Map<String, Object> updateHeadImg(@RequestParam MultipartFile file,@RequestParam int gid) {
+        System.out.println(gid);
+        String root = System.getProperty("user.dir");
+        System.out.println("start handle picture");
+        Map<String, Object> map = new HashMap<>();
+        Map<String, String> data = new HashMap<>();
+        String path1 = root + "/src/main/resources/templates/groupHead";
+        String originalFileName = file.getOriginalFilename();
+        String fileType = originalFileName.substring(Objects.requireNonNull(originalFileName).lastIndexOf("."));
+        File fileStore = new File(root + "/src/main/resources/templates/groupHead", gid+fileType);
+        String url = "templates/groupImg/"+gid+fileType;
+        try {
+            file.transferTo(fileStore);
+        } catch (Exception e) {
+            map.put("message", "文件写入失败");
+            map.put("errno", 1);
+            System.out.println("add picture flase" + url);
+            return map;
+        }
+        System.out.println("gid:"+gid);
+        discussService.addGroupPic(url,gid);
+        System.out.println("add picture success");
 
+        map.put("errno", 0);
+        return map;
+    }
+    @PostMapping("/api/group/getimg")
+    public  Map<String, Object> getImg(@RequestBody Map<Object, Object> remap )
+    {
+        int gid=(int) remap.get("gid");
+        Groupt groupt=discussService.findGroupByGid(gid);
+        Map<String, Object> map = new HashMap<>();
+        if(groupt!=null)
+        {
+            map.put("src",groupt.getSrc());
+            map.put("username","notnull");
+        }
+        else {map.put("username",null);}
+        return map;
+    }
     @PostMapping("/api/group/addgroup")
     public Map<String, Object> addGroup(@RequestBody Map<Object, Object> remap) {
         String name = (String) remap.get("name");

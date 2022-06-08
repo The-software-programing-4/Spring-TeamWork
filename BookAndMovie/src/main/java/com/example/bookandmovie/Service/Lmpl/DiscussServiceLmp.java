@@ -41,4 +41,5 @@ public class DiscussServiceLmp implements DiscussService {
     public void addGroup(Groupt groupt){discussDao.addGroup(groupt);};
     public void addLeader(User user){discussDao.addLeader(user);};
     public void addLeader2(User user){discussDao.addLeader2(user);};
+    public void addGroupPic(String src,int gid){discussDao.addGroupPic(src,gid);}
 }
