@@ -32,4 +32,5 @@ public class UserServiceLmpl implements UserService {
     public void registerUserByEmail(User user){ userDao.registerUserByEmail(user);}
     @Override
     public void registerUserByPhone(User user){ userDao.registerUserByPhone(user);}
+    public void addImg(String url,int uid){userDao.addImg(url,uid);};
 }

@@ -15,15 +15,19 @@ public class changeMessage {
     private UserService userSevice;
     @Autowired
     private HttpServletRequest request;
-    @PostMapping("api/user/message_set")
+    @PostMapping("/api/user/message_set")
     public String changeMessage(@RequestBody Map<Object,Object> re_map){
         User user = new User();
         try {
-            user.set_id(Integer.parseInt(re_map.get("uid").toString()));
+            user.set_id((int)re_map.get("uid"));
         }catch (Exception e){
             return "用户UID异常";
         }
-        System.out.println((String) re_map.get("username"));
+        System.out.println("add end");
+        String username=(String) re_map.get("username");
+        User tuser=userSevice.selectUserByUsername(username);
+        if(tuser!=null && tuser.getS_id()!=user.getS_id())
+            return "用户名已存在";
         user.setUsername((String)re_map.get("username"));
         try {
             Calendar calendar = new GregorianCalendar();
@@ -34,7 +38,7 @@ public class changeMessage {
             user.setBirthday(birth);
         }catch (Exception e)
         {
-            return "生日转换异常";
+            System.out.println("生日转换异常");
         }
         user.setEmail((String)re_map.get("email"));
         user.setLivetown1((String)re_map.get("l1"));
@@ -51,9 +55,10 @@ public class changeMessage {
         }catch (Exception e){
             return "数据库插入异常！";
         }
-        return "Recieved!";
+        System.out.println("add end");
+        return "信息修改成功";
     }
-    @GetMapping("api/user/message_get")
+    @GetMapping("/api/user/message_get")
     @ResponseBody
     public Map<String,Object> getMessage()
     {
@@ -85,7 +90,7 @@ public class changeMessage {
         map.put("birthOP",user.getBirthOP());
         return map;
     }
-    @PostMapping("api/user/password_set")
+    @PostMapping("/api/user/password_set")
     public Map<String ,Object> changePassword(@RequestBody Map<Object,String> re_map)
     {
         //Integer uid = Integer.valueOf(re_map.get("uid"));

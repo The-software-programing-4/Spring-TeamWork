@@ -12,6 +12,8 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+
 @RestController
 public class UserController {
     @Autowired
@@ -146,74 +148,37 @@ public class UserController {
         return map;
     }
     @PostMapping("/api/user/imgUpload")
-    public String updateImg( @RequestBody MultipartFile file,String username){
-        int uid;
-        try{
-        uid = (int) request.getSession().getAttribute("uid");}
-        catch (Exception e){uid=0;}
+    public String updateImg( @RequestParam MultipartFile file,@RequestParam int uid){
+        HttpSession session= request.getSession();
+       // uid = (int) session.getAttribute("uid");
 
-        String root=System.getProperty("user.dir");
-        String status;
-        status="_new";
-        //System.out.println(root);
+        String root = System.getProperty("user.dir");
+        String originalFileName = file.getOriginalFilename();
+        String fileType = originalFileName.substring(Objects.requireNonNull(originalFileName).lastIndexOf("."));
+        File fileStore = new File(root + "/src/main/resources/templates/userImg", uid+fileType);
+        String url = "templates/userImg/"+uid+fileType;
         if(uid==0)
             return "用户未登陆";
-        String path1=root+"/src/main/resources/templates/userImg/"+uid+".jpg";
-        String path2=root+"/src/main/resources/templates/userImg/"+uid+status+".jpg";
-        File fileEx1=new File(path1);
-        File fileEx2=new File(path2);
-        if(fileEx1.exists())
-        {
-            fileEx1.delete();
+        userSevice.addImg(url,uid);
+        try {
+            file.transferTo(fileStore);
+        } catch (Exception e) {
+            return "文件写入失败!";
         }
-        else if(fileEx2.exists()){
-            fileEx2.delete();
-            status="";
-        }
-        File fileStore=new File(root+"/src/main/resources/templates/userImg",uid+status+".jpg");
-        try{file.transferTo(fileStore);}
-        catch (Exception e){
-            return "文件写入失败";
-        }
+
         return "Upload file success : " + file.getOriginalFilename();
     }
     @GetMapping("api/user/getimg")
     public Map<String,Object> getImg()
     {
-        int uid = (int) request.getSession().getAttribute("uid");
+        HttpSession session=request.getSession();
+        int uid = (int) session.getAttribute("uid");
         Map<String,Object> map = new HashMap<>();
-        System.out.println(uid);
-        if(uid==0)
-        {
-            map.put("username",uid);
-            map.put("message","未知错误");
-            return map;
-        }
-        System.out.println("开始获取图片"+uid);
-        String root=new String();
-        try{
-            root=System.getProperty("user.dir");
-        }catch (Exception e){System.out.println("root wrong");}
-        String status="_new";
-        String path1=root+"/src/main/resources/templates/userImg/"+uid+".jpg";
-        String path2=root+"/src/main/resources/templates/userImg/"+uid+status+".jpg";
-        System.out.println(path1);
-        System.out.println(path2);
-        File file1=new File(path1);
-        File file2=new File(path2);
-        if(file1.exists())
-        {
-            status="";
-        }
-        else if(file2.exists())
-            status="_new";
-        else{
-            map.put("username",uid);
-            map.put("message","noImg");
-            return map;
-        }
+        User user=null;
+        user=userSevice.selectUserByUid(uid);
         map.put("username",uid);
-        map.put("message","templates/userImg/"+uid+status+".jpg");
+        if(user!=null)
+        map.put("message",user.getSrc());
         return map;
     }
 }

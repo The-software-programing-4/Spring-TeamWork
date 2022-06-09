@@ -13,4 +13,5 @@ public interface UserService {
     public User selectUserByUid(Integer uid);
     public void registerUserByEmail(User user);
     public void registerUserByPhone(User user);
+    public void addImg(String url,int uid);
 }

@@ -18,4 +18,5 @@ public interface UserDao {
     public void changPassword(String password, Integer uid);
     void registerUserByEmail(User user);
     void registerUserByPhone(User user);
+    public void addImg(String url,int uid);
 }
