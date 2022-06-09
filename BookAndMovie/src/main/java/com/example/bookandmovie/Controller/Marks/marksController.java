@@ -39,7 +39,7 @@ public class marksController {
 
         String content = (String) map.get("content");
         Date day = new Date();
-        int score = (int) map.get("score");
+        int score =2* (int) map.get("score");
         try {
             day = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss").parse((String) map.get("day"));
         } catch (Exception e) {
@@ -50,14 +50,14 @@ public class marksController {
         int reply = (int) map.get("reply");
         Mark mark = new Mark( type, target, uid, content, score, day, thumb, reply);
         mark.setTitle(title);
+        mark.setDisag(0);
         //System.out.println(mark.toString());
-        try {
+        System.out.println(score+"is score");
             markService.addMark(mark);
             markService.replyadd(target);
+            if(score>1)
             updateScore(type,target,score);
-        } catch (Exception e) {
             System.out.println("数据库插入异常");
-        }
         return "添加评论成功!";
     }
 
@@ -88,6 +88,7 @@ public class marksController {
             map_temp.put("uid", e.getUid());
             User user=userService.selectUserByUid(e.getUid());
             map_temp.put("username",user.getUsername());
+            map_temp.put("uid",user.getS_id());
             map_temp.put("src",user.getSrc());
             map_temp.put("content", e.getContent());
             map_temp.put("score", e.getScore());
@@ -136,7 +137,6 @@ public class marksController {
         int uid= (int)session.getAttribute("uid");
         int op=(int)map.get("op");
         int target=(int)map.get("id");
-
 
             if(op==1)
             markService.dischange1(target,op,uid);

@@ -18,15 +18,17 @@ public class changeMessage {
     @PostMapping("/api/user/message_set")
     public String changeMessage(@RequestBody Map<Object,Object> re_map){
         User user = new User();
+        int uid=0;
         try {
-            user.set_id((int)re_map.get("uid"));
         }catch (Exception e){
             return "用户UID异常";
         }
+        uid=(int)re_map.get("uid");
         System.out.println("add end");
         String username=(String) re_map.get("username");
         User tuser=userSevice.selectUserByUsername(username);
-        if(tuser!=null && tuser.getS_id()!=user.getS_id())
+        System.out.println(tuser.getS_id()+" =="+uid);
+        if(tuser!=null && tuser.getS_id()!=uid)
             return "用户名已存在";
         user.setUsername((String)re_map.get("username"));
         try {

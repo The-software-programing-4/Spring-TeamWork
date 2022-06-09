@@ -89,7 +89,7 @@ public class UserController {
                     map.put("uid",user.get_id());
                     session.setAttribute("username",username);
                     session.setAttribute("password",password);
-                    session.setAttribute("uid",user.get_id());
+                    session.setAttribute("uid",user.getS_id());
                     Integer t1=(Integer)request.getSession().getAttribute("uid");
                     String r1=(String)request.getSession().getAttribute("username");
                     map.put("t1",t1);   map.put("r1",r1);
@@ -104,7 +104,7 @@ public class UserController {
                 {
                     map.put("success",true);
                     map.put("message",username+"登录成功");
-                    map.put("uid",user.get_id());
+                    map.put("uid",user.getS_id());
                     session.setAttribute("username",username);
                     session.setAttribute("password",password);
                     session.setAttribute("uid",user.get_id());

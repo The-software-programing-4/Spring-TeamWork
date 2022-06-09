@@ -12,8 +12,8 @@ public interface MarkService {
 
     public int countMark_book(int target);
     public int countMark_movie(int target);
-    public int culMark_book(int target,double score);
-    public int culMark_movie(int target,double score);
+    public void culMark_book(int target,double score);
+    public void culMark_movie(int target,double score);
     public Mark isthumb(int uid,int id);
     public Mark isdis(int uid,int id);
     public void deleteMark(int mid);

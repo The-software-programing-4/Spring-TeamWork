@@ -24,9 +24,9 @@ public class MarkServiceMpl implements MarkService {
     @Override
     public int countMark_movie(int target){return markDao.countMark_movie(target);}
     @Override
-    public int culMark_book(int target,double score){return markDao.culMark_book(target,score);}
+    public void culMark_book(int target,double score){ markDao.culMark_book(target,score);}
     @Override
-    public int culMark_movie(int target,double score){return markDao.culMark_movie(target, score);}
+    public void culMark_movie(int target,double score){markDao.culMark_movie(target, score);}
     @Override
     public Mark isthumb(int uid,int id){return markDao.isthumb(uid,id);}
     @Override

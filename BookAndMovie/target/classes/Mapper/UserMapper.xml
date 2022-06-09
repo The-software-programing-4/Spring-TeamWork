@@ -7,7 +7,7 @@
         select * from USER where username = #{username};
     </select>
     <insert id="registerNewUser" parameterType="User">
-        insert into `USER`(`username`,`password`) values(#{username},#{password});
+        insert into `USER`(`username`,`password`,src) values(#{username},#{password},#{src});
     </insert>
     <select id="selectUserByPhone" resultType="User">
         select *
