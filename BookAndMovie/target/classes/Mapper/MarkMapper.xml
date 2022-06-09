@@ -4,8 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bookandmovie.Dao.MarkDao">
     <insert id="addMark" parameterType="Mark">
-        insert into `marks`() values(#{type},#{target},#{uid},
-            #{content}, #{score},#{day},#{thumb},#{reply})   ;
+        insert into `marks`(type,target,uid,content,score,day,thumb,reply,title) values(#{type},#{target},#{uid},
+            #{content}, #{score},#{day},#{thumb},#{reply},#{title})   ;
     </insert>
     <select id="getMark" resultType="Mark">
         select * from marks where type=#{type} and target=#{target};
@@ -13,9 +13,32 @@
     <update id="replyadd" parameterType="int">
         update marks set reply=reply+1 where id=#{target};
     </update>
-    <update id="thumbChange" >
-        update marks set thumb=thumb+#{op} where id=#{target};
-        insert into thumb(uid,mid) values (#{uid},#{target})
+    <update id="thumbChange1" >
+        update marks set thumb=thumb+1 where id=#{target};
+
+    </update>
+    <update id="dischange1" >
+        update marks set disag=disag+1 where id=#{target};
+    </update>
+    <insert id="insertThumb">
+        insert into thumb(uid,mid) values (#{uid},#{target});
+    </insert>
+    <insert id="insertDisag">
+        insert into disag(uid,mid) values (#{uid},#{target});
+    </insert>
+    <delete id="dropThumb">
+        delete from thumb where uid=#{uid} and mid=#{target};
+    </delete>
+    <delete id="dropDisag">
+        delete from disag where uid=#{uid} and mid=#{target};
+    </delete>
+    <update id="thumbChange2" >
+        update marks set thumb=thumb-1 where id=#{target};
+
+    </update>
+    <update id="dischange2" >
+        update marks set disag=disag-1 where id=#{target};
+
     </update>
     <select id="countMark_book" resultType="int">
         select count(*) from marks where target=#{target} and type=1;
@@ -23,14 +46,19 @@
     <select id="countMark_movie" resultType="int">
         select count(*) from marks where target=#{target} and type=2;
     </select>
-    <select id="culMark_movie" >
+    <select id="culMark_movie">
         update movie set score=#{score} where mid=#{target};
     </select>
-    <select id="culMark_book" >
+    <select id="culMark_book">
         update book set score=#{score} where book_id=#{target};
     </select>
     <select id="isthumb" resultType="Mark">
-        select * from marks where uid=#{uid} and id=#{id};
+        select * from marks where id in(
+        select mid from thumb where uid=#{uid} and mid=#{id})
+    </select>
+    <select id="isdis" resultType="Mark">
+select * from marks where id in
+        (select mid from disag where uid=#{uid} and mid=#{id})
     </select>
     <delete id="deleteMark" parameterType="int">
         delete from marks where id = #{mid};

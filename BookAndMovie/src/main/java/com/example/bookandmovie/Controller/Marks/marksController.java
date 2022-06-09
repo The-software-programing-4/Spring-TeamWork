@@ -39,16 +39,18 @@ public class marksController {
 
         String content = (String) map.get("content");
         Date day = new Date();
-        double score = (double) map.get("score");
+        int score = (int) map.get("score");
         try {
             day = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss").parse((String) map.get("day"));
         } catch (Exception e) {
             System.out.println("日期转换异常");
         }
-
+        String title=(String) map.get("title");
         int thumb = (int) map.get("thumb");
         int reply = (int) map.get("reply");
         Mark mark = new Mark( type, target, uid, content, score, day, thumb, reply);
+        mark.setTitle(title);
+        //System.out.println(mark.toString());
         try {
             markService.addMark(mark);
             markService.replyadd(target);
@@ -86,20 +88,24 @@ public class marksController {
             map_temp.put("uid", e.getUid());
             User user=userService.selectUserByUid(e.getUid());
             map_temp.put("username",user.getUsername());
+            map_temp.put("src",user.getSrc());
             map_temp.put("content", e.getContent());
             map_temp.put("score", e.getScore());
             map_temp.put("day", e.getDay());
+            map_temp.put("title",e.getTitle());
             map_temp.put("thumb", e.getThumb());
+            map_temp.put("disag", e.getDisag());
             map_temp.put("reply", e.getReply());
+            Mark t=null;
             if(uid!=-1) {
                 User user1=userService.selectUserByUid(uid);
-                if(user1!=null) {
-                    map_temp.put("username", user1.getUsername());
-                    map_temp.put("src",user1.getSrc());
-                }
-                Mark t = markService.isthumb(uid, e.getId());
+                if(user1!=null)
+                    t = markService.isthumb(uid, e.getId());
                 if (t == null) map_temp.put("isthumb", "点赞");
                 else map_temp.put("isthumb", "已点赞");
+                t = markService.isdis(uid, e.getId());
+                if (t == null) map_temp.put("isdisag", "反对");
+                else map_temp.put("isdisag", "已反对");
             }
             arr.add(map_temp);
         }
@@ -110,13 +116,33 @@ public class marksController {
     }
 
     @PostMapping("/api/marks/thumb")
-    public String thumbChange(HttpSession session,@RequestBody Map<String, Object> map) {
+    public String thumbChange(@RequestBody Map<String, Object> map) {
+        HttpSession session=request.getSession();
         int uid= (int)session.getAttribute("uid");
         int op=(int)map.get("op");
-        int target=(int)map.get("target");
-        try{markService.thumbChange(target,op,uid);}
-        catch (Exception e){System.out.println("点赞修改成功");}
-        return "点赞修改失败";
+        int target=(int)map.get("id");
+        try{
+            if(op==1)
+            markService.thumbChange1(target,op,uid);
+            else
+                markService.thumbChange2(target,op,uid);
+        }
+        catch (Exception e){System.out.println("点赞修改失败");}
+        return "点赞修改成功";
+    }
+    @PostMapping("/api/marks/disag")
+    public String dis(@RequestBody Map<String, Object> map) {
+        HttpSession session=request.getSession();
+        int uid= (int)session.getAttribute("uid");
+        int op=(int)map.get("op");
+        int target=(int)map.get("id");
+
+
+            if(op==1)
+            markService.dischange1(target,op,uid);
+            else markService.dischange2(target,op,uid);
+
+        return "反对修改成功";
     }
     public String updateScore(int type,int target,double score)
     {
@@ -128,7 +154,7 @@ public class marksController {
             double score_orin=book.getScore();
             if(count==0) re=score;
             else {
-                re=(count*score_orin+score)/count+1;
+                re=(count*score_orin+score)/(count+1);
             }
             markService.culMark_book(target,re);
         }
@@ -139,7 +165,7 @@ public class marksController {
             double score_orin=movie.getScore();
             if(count==0) re=score;
             else {
-                re=(count*score_orin+score)/count+1;
+                re=(count*score_orin+score)/(count+1);
             }
             markService.culMark_movie(target,re);
         }

@@ -17,9 +17,41 @@ public class Mark {
     private String content;
     private double score;
     private Date day;
-
+    private String title;
     private int thumb;
+    private int disag;
     private int reply;
+
+    public int getDisag() {
+        return disag;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDisag(int disag) {
+        this.disag = disag;
+    }
+
+    @Override
+    public String toString() {
+        return "Mark{" +
+                "id=" + id +
+                ", type=" + type +
+                ", target=" + target +
+                ", uid=" + uid +
+                ", content='" + content + '\'' +
+                ", score=" + score +
+                ", day=" + day +
+                ", thumb=" + thumb +
+                ", reply=" + reply +
+                '}';
+    }
 
     public Mark() {
     }

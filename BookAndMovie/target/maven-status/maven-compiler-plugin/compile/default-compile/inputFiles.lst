@@ -7,6 +7,7 @@
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Entity/Groupt.java
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Service/DiscussService.java
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Controller/UploadController.java
+/Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Service/SearchAllService.java
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Entity/Topic.java
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Dao/PostDao.java
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Dao/BookDao.java
@@ -14,12 +15,15 @@
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Service/Lmpl/UserServiceLmpl.java
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Service/Lmpl/DiscussServiceLmp.java
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Controller/Group/GroupController.java
+/Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Controller/SearchAllController/SearchAllController.java
+/Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Dao/SearchAllDao.java
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Controller/movie/movieMain.java
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Service/Lmpl/BookServiceImpl.java
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Service/BookService.java
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Entity/Discuss.java
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/myConfig/CorsConfig.java
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Controller/User/changeMessage.java
+/Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Service/Lmpl/SearchAllServiceImpl.java
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Controller/Topic/TopicController.java
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Service/Lmpl/ReportServiceImpl.java
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Dao/TopicDao.java
@@ -32,6 +36,7 @@
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Controller/User/logoutController.java
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Entity/Mark.java
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Service/Lmpl/TopicServiceImpl.java
+/Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/myConfig/RestTemplateConfig.java
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Controller/EditDistance.java
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Service/Lmpl/PostServiceImpl.java
 /Users/fancy/Software_Project/software_project/Spring-TeamWork/BookAndMovie/src/main/java/com/example/bookandmovie/Controller/Marks/marksController.java

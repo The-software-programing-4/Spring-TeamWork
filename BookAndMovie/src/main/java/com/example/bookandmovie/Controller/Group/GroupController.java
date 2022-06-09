@@ -217,6 +217,7 @@ public class GroupController {
             catch (Exception ef){System.out.println("no group");}
             temp.put("src",user.getSrc());
             temp.put("thumb",e.getThumb());
+            temp.put("title",e.getTitle());
             temp.put("writer",user.getUsername());
             temp.put("time", e.getTime());
             temp.put("isthumb","点赞");
@@ -430,7 +431,7 @@ public class GroupController {
                 temp.put("star",e.getStar());
                 User user = userService.selectUserByUid(e.getUid());
                 temp.put("leader", user.getUsername());
-                temp.put("name", e.getTitle());
+                temp.put("title", e.getTitle());
                 temp.put("time", e.getTime());
                 temp.put("respose", e.getRespose());
                 temp.put("thumb", e.getThumb());

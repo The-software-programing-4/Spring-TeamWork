@@ -125,10 +125,12 @@ public class TopicController {
     }
 
     @PostMapping("/api/topic/topicsearch")
-    public Map<String, Object> searchTopic(@RequestBody String key){
+    public Map<String, Object> searchTopic(@RequestBody Map<Object,Object> map){
+        String key=(String)map.get("key");
         List<Topic> topics = topicService.listTopic();
         Map<String, Object> remap = new HashMap<>();
         List<Map> arr = new ArrayList<>();
+        System.out.println(key);
         EditDistance editDistance = new EditDistance();
         int editD;
         for(Topic t : topics){

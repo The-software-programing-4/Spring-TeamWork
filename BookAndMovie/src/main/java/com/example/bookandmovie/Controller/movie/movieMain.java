@@ -62,7 +62,7 @@ public class movieMain {
             remap.put("date", m.getDate());
             remap.put("position", m.getPosition());
             remap.put("IMDb", m.getIMDb());
-            remap.put("score", m.getScore());
+            remap.put("score", ((double)((int)(m.getScore()*10)))/10);
             remap.put("brief_introduction", m.getBrief_introduction());
         }
         return remap;
