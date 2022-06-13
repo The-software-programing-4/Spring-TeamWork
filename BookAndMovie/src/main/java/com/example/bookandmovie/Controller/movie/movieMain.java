@@ -63,7 +63,7 @@ public class movieMain {
             remap.put("position", m.getPosition());
             remap.put("IMDb", m.getIMDb());
             remap.put("score", ((double)((int)(m.getScore()*10)))/10);
-            remap.put("brief_introduction", m.getBrief_introduction());
+            remap.put("introduction", m.getBrief_introduction());
         }
         return remap;
     }
@@ -82,6 +82,7 @@ public class movieMain {
             map_temp.put("score", e.getScore());
             map_temp.put("actors", e.getActors());
             map_temp.put("category", e.getCategory());
+            map_temp.put("introduction",e.getBrief_introduction());
             arr.add(map_temp);
             i++;
             if(i>10) break;

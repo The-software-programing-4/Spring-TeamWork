@@ -4,8 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.bookandmovie.Dao.MarkDao">
     <insert id="addMark" parameterType="Mark">
-        insert into `marks`(type,target,uid,content,score,day,thumb,reply,title) values(#{type},#{target},#{uid},
-            #{content}, #{score},#{day},#{thumb},#{reply},#{title})   ;
+        insert into `marks`(type,target,uid,content,score,day,thumb,reply,title,disag) values(#{type},#{target},#{uid},
+            #{content}, #{score},#{day},#{thumb},#{reply},#{title},0)   ;
     </insert>
     <select id="getMark" resultType="Mark">
         select * from marks where type=#{type} and target=#{target};

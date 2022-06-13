@@ -30,6 +30,27 @@ public class User {
     private String livetown2;
     private String livetown3;
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "s_id=" + s_id +
+                ", src='" + src + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", birthday=" + birthday +
+                ", hometown1='" + hometown1 + '\'' +
+                ", hometown2='" + hometown2 + '\'' +
+                ", hometown3='" + hometown3 + '\'' +
+                ", livetown1='" + livetown1 + '\'' +
+                ", livetown2='" + livetown2 + '\'' +
+                ", livetown3='" + livetown3 + '\'' +
+                ", regionOP='" + regionOP + '\'' +
+                ", birthOP='" + birthOP + '\'' +
+                '}';
+    }
+
     public Integer getS_id() {
         return s_id;
     }

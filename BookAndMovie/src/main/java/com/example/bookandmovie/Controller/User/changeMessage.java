@@ -28,6 +28,7 @@ public class changeMessage {
         String username=(String) re_map.get("username");
         User tuser=userSevice.selectUserByUsername(username);
         System.out.println(tuser.getS_id()+" =="+uid);
+        user.setS_id(uid);
         if(tuser!=null && tuser.getS_id()!=uid)
             return "用户名已存在";
         user.setUsername((String)re_map.get("username"));
@@ -53,6 +54,7 @@ public class changeMessage {
         user.setRegionOP((String) re_map.get("regionOP"));
         user.setPhone((String) re_map.get("phone"));
         try {
+            System.out.println(user.toString());
             userSevice.updateUserMessage(user);
         }catch (Exception e){
             return "数据库插入异常！";

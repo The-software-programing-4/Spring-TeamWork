@@ -86,10 +86,16 @@ public class marksController {
             map_temp.put("type", e.getType());
             map_temp.put("target", e.getTarget());
             map_temp.put("uid", e.getUid());
+            try{
             User user=userService.selectUserByUid(e.getUid());
             map_temp.put("username",user.getUsername());
             map_temp.put("uid",user.getS_id());
-            map_temp.put("src",user.getSrc());
+            map_temp.put("src",user.getSrc());}
+            catch (Exception f){
+                map_temp.put("username","用户已被删除");
+                map_temp.put("uid",0);
+                map_temp.put("src","templates/userImg/0.jpg");
+            }
             map_temp.put("content", e.getContent());
             map_temp.put("score", e.getScore());
             map_temp.put("day", e.getDay());

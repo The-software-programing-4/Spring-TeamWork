@@ -68,7 +68,7 @@ public class GroupController {
         String originalFileName = file.getOriginalFilename();
         String fileType = originalFileName.substring(Objects.requireNonNull(originalFileName).lastIndexOf("."));
         File fileStore = new File(root + "/src/main/resources/templates/groupHead", gid+fileType);
-        String url = "templates/groupImg/"+gid+fileType;
+        String url = "templates/groupHead/"+gid+fileType;
         try {
             file.transferTo(fileStore);
         } catch (Exception e) {
@@ -429,9 +429,11 @@ public class GroupController {
                 temp.put("ismanager",ismanager);
                 temp.put("top", e.getTop());
                 temp.put("star",e.getStar());
-                User user = userService.selectUserByUid(e.getUid());
-                temp.put("leader", user.getUsername());
-                temp.put("title", e.getTitle());
+                try {
+                    User user = userService.selectUserByUid(e.getUid());
+                    temp.put("leader", user.getUsername());
+                }catch (Exception ef) {temp.put("leader","用户已被删除");}
+                temp.put("name", e.getTitle());
                 temp.put("time", e.getTime());
                 temp.put("respose", e.getRespose());
                 temp.put("thumb", e.getThumb());
@@ -445,8 +447,10 @@ public class GroupController {
                 temp.put("top", e.getTop());
                 temp.put("ismanager",ismanager);
                 temp.put("star",e.getStar());
-                User user = userService.selectUserByUid(e.getUid());
-                temp.put("leader", user.getUsername());
+                try {
+                    User user = userService.selectUserByUid(e.getUid());
+                    temp.put("leader", user.getUsername());
+                }catch (Exception ef) {temp.put("leader","用户已被删除");}
                 temp.put("name", e.getTitle());
                 temp.put("time", e.getTime());
                 temp.put("respose", e.getRespose());
@@ -471,9 +475,14 @@ public class GroupController {
                 temp.put("id", e.getId());
                 temp.put("top", e.getTop());
                 temp.put("star",e.getStar());
-                User user = userService.selectUserByUid(e.getUid());
-                temp.put("writer", user.getUsername());
-                temp.put("src",user.getSrc());
+
+                try {
+                    User user = userService.selectUserByUid(e.getUid());
+                    temp.put("writer", user.getUsername());
+                    temp.put("src",user.getSrc());
+                }catch (Exception ef){temp.put("writer","用户已被删除");
+                    temp.put("src","templates/userImg/0.jpg");}
+
                 temp.put("content",e.getContent());
 
                 temp.put("name", e.getTitle());
